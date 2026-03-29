@@ -7,46 +7,49 @@ export default function PortfolioFooter({ data }) {
   if (!data) return null;
 
   const socials = [
-    { show: data?.github,   icon: FaGithub,   href: data?.github,             label: "GitHub"   },
-    { show: data?.linkedin, icon: FaLinkedin,  href: data?.linkedin,           label: "LinkedIn" },
-    { show: data?.email,    icon: FaEnvelope,  href: `mailto:${data?.email}`,  label: "Email"    },
-  ].filter(s => s.show);
+    { show: data?.github,   icon: FaGithub,   href: data?.github,            label: "GitHub"   },
+    { show: data?.linkedin, icon: FaLinkedin,  href: data?.linkedin,          label: "LinkedIn" },
+    { show: data?.email,    icon: FaEnvelope,  href: `mailto:${data?.email}`, label: "Email"    },
+  ].filter((s) => s.show);
 
   return (
-    <footer className="relative bg-[#020b16] border-t border-white/[0.05] py-10 px-6 overflow-hidden">
-      {/* Top fade line */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-px bg-gradient-to-r from-transparent via-cyan-400/20 to-transparent" />
+    <footer className="relative bg-[#050505] border-t border-blue-500/[0.08] py-10 px-6 overflow-hidden">
 
-      {/* Ambient */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[400px] h-[150px] bg-cyan-400/[0.03] rounded-full blur-[80px] pointer-events-none" />
+      {/* Top gradient rule */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-px bg-gradient-to-r from-transparent via-blue-500/25 to-transparent" />
+
+      {/* Subtle grid */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(59,130,246,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.015)_1px,transparent_1px)] bg-[size:48px_48px] pointer-events-none" />
 
       <div className="max-w-6xl mx-auto relative z-10">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
 
-          {/* Name & brand */}
+          {/* Logo + copyright */}
           <div className="flex items-center gap-3">
-            <motion.div
-              animate={{ opacity: [0.4, 1, 0.4] }}
-              transition={{ duration: 3, repeat: Infinity }}
-              className="w-1.5 h-1.5 rounded-full bg-cyan-400"
-            />
-            <p className="text-sm text-white/40">
+            <div className="relative w-6 h-6 border border-blue-500/40 flex items-center justify-center">
+              <span className="text-[9px] font-black text-blue-400/70">
+                {data.name?.split(" ").map((w) => w[0]).join("").slice(0, 2) || "BB"}
+              </span>
+              <span className="absolute top-0 left-0 w-1.5 h-px bg-blue-500/50" />
+              <span className="absolute top-0 left-0 h-1.5 w-px bg-blue-500/50" />
+            </div>
+            <p className="text-sm text-white/30">
               © {year}{" "}
-              <span className="text-white/70 font-bold">{data.name || "Portfolio"}</span>
+              <span className="text-white/60 font-black uppercase tracking-wide">{data.name || "Portfolio"}</span>
             </p>
           </div>
 
           {/* Social icons */}
           {socials.length > 0 && (
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-5">
               {socials.map(({ icon: Icon, href, label }) => (
                 <motion.a
                   key={label}
                   href={href}
                   target={label !== "Email" ? "_blank" : undefined}
                   rel={label !== "Email" ? "noopener noreferrer" : undefined}
-                  whileHover={{ scale: 1.2, color: "#22d3ee" }}
-                  className="text-white/25 hover:text-cyan-400 transition-colors duration-300"
+                  whileHover={{ scale: 1.2, color: "#60a5fa" }}
+                  className="text-white/20 hover:text-blue-400 transition-colors duration-300"
                   aria-label={label}
                 >
                   <Icon className="w-4 h-4" />
@@ -56,9 +59,9 @@ export default function PortfolioFooter({ data }) {
           )}
 
           {/* Credit */}
-          <p className="text-[11px] text-white/15 tracking-widest">
+          <p className="text-[10px] text-white/15 font-bold uppercase tracking-[0.3em]">
             Built with{" "}
-            <span className="text-cyan-500/50 font-semibold">Salience</span>
+            <span className="text-blue-500/50">Salience</span>
           </p>
         </div>
       </div>
