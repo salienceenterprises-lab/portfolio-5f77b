@@ -1,117 +1,99 @@
 "use client";
 import { motion } from "framer-motion";
-import { FaBolt, FaExternalLinkAlt } from "react-icons/fa";
+import { FaLeaf, FaExternalLinkAlt } from "react-icons/fa";
 
 export default function PortfolioCommunity({ data }) {
-  if (!data?.community?.length) return null;
+  if (!data?.community || !Array.isArray(data.community) || data.community.length === 0) return null;
 
   return (
-    <section id="community" className="relative py-28 px-6 overflow-hidden bg-[#050505]">
+    <section id="community" className="relative py-28 px-6 overflow-hidden bg-[#010703]">
 
-      {/* Ambient */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute bottom-1/3 left-1/3 w-[500px] h-[400px] bg-blue-600/[0.05] blur-[150px] rounded-full" />
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(59,130,246,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.025)_1px,transparent_1px)] bg-[size:48px_48px]" />
+        <div className="absolute bottom-0 right-1/4 w-[500px] h-[400px] rounded-full blur-[200px]"
+          style={{ background: "radial-gradient(circle, rgba(0,230,118,0.05), transparent 70%)" }} />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(0,230,118,0.015)_1px,transparent_1px)] bg-[size:64px]" />
       </div>
 
-      <div className="max-w-5xl mx-auto relative z-10">
+      <div className="max-w-6xl mx-auto relative z-10">
 
-        {/* Section label */}
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="flex items-center gap-3 mb-3"
-        >
-          <span className="text-blue-400/40 font-black text-xs tracking-widest select-none">{"//"}</span>
-          <span className="text-[10px] font-black tracking-[0.35em] uppercase text-blue-400/80">06 — Impact</span>
-          <div className="flex-1 h-px bg-gradient-to-r from-blue-500/20 to-transparent max-w-[80px]" />
+        <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }} transition={{ duration: 0.6 }}
+          className="flex items-center gap-3 mb-3">
+          <span className="font-black text-base" style={{ color: "#00e676" }}>›</span>
+          <span className="text-[10px] font-black tracking-[0.4em] uppercase"
+            style={{ color: "rgba(0,230,118,0.7)" }}>06 — Impact</span>
         </motion.div>
 
-        <motion.h2
-          initial={{ opacity: 0, y: 18 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.05 }}
-          className="text-4xl sm:text-6xl font-black tracking-tighter text-white mb-4 uppercase"
-        >
-          Community<span className="text-blue-400">.</span>
+        <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.05 }}
+          className="text-4xl sm:text-5xl font-black tracking-tighter text-white mb-4 uppercase">
+          Community
         </motion.h2>
-
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.15 }}
-          className="text-white/30 text-sm mb-16 max-w-sm"
-        >
-          Giving back, building up, leaving things better.
+        <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.15 }}
+          className="text-sm mb-16 max-w-md" style={{ color: "rgba(255,255,255,0.3)" }}>
+          Giving back — organisations and causes that matter.
         </motion.p>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {data.community.map((item, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.08 }}
-              whileHover={{ y: -5 }}
-              className="group relative bg-blue-500/[0.03] border border-blue-500/15 p-6 overflow-hidden hover:border-blue-500/45 hover:shadow-[0_16px_50px_rgba(59,130,246,0.12)] transition-all duration-400"
-            >
-              {/* Corner bracket — top left */}
-              <div className="absolute top-0 left-0 w-5 h-5 border-t-2 border-l-2 border-blue-500/0 group-hover:border-blue-500/70 transition-colors duration-400" />
-              {/* Corner bracket — bottom right */}
-              <div className="absolute bottom-0 right-0 w-5 h-5 border-b-2 border-r-2 border-blue-500/0 group-hover:border-blue-500/70 transition-colors duration-400" />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {data.community.map((item, index) => {
+            if (!item) return null;
+            return (
+              <motion.div key={index}
+                initial={{ opacity: 0, y: 28 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ type: "spring", stiffness: 100, damping: 15, delay: index * 0.08 }}
+                whileHover={{ y: -5 }}
+                className="group relative overflow-hidden transition-all duration-300"
+                style={{
+                  background: "rgba(255,255,255,0.02)",
+                  border: "1px solid rgba(255,255,255,0.06)",
+                }}>
 
-              {/* Electric flash icon with pulse */}
-              <div className="relative w-11 h-11 mb-5">
-                {/* Electric pulse rings */}
-                {[0, 1].map((r) => (
-                  <motion.div
-                    key={r}
-                    animate={{ scale: [1, 2.2], opacity: [0.25, 0] }}
-                    transition={{ duration: 2, repeat: Infinity, delay: index * 0.4 + r * 0.8 }}
-                    className="absolute inset-0 border border-blue-500/40"
-                  />
-                ))}
-                <div className="relative w-11 h-11 bg-blue-500/[0.1] border border-blue-500/25 flex items-center justify-center group-hover:border-blue-500/60 transition-colors duration-300 z-10">
-                  <FaBolt className="w-4 h-4 text-blue-400/80" />
-                </div>
-              </div>
+                {/* Top green bar */}
+                <div className="absolute top-0 left-0 right-0 h-0.5"
+                  style={{ background: "linear-gradient(90deg, #00e676, rgba(0,230,118,0.1))" }} />
 
-              <div className="flex items-start justify-between gap-2 mb-2">
-                <div>
-                  <h3 className="font-black text-white text-sm uppercase tracking-wide mb-0.5 group-hover:text-blue-200 transition-colors duration-300">
-                    {item.role}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-400 pointer-events-none"
+                  style={{ background: "linear-gradient(135deg, rgba(0,230,118,0.04), transparent)" }} />
+
+                <div className="p-6 relative z-10">
+                  <div className="flex items-start justify-between mb-5">
+                    <div className="w-10 h-10 flex items-center justify-center transition-all duration-300"
+                      style={{
+                        background: "rgba(0,230,118,0.08)",
+                        border: "1px solid rgba(0,230,118,0.2)",
+                      }}>
+                      <motion.div
+                        animate={{ rotate: [0, 10, -10, 0] }}
+                        transition={{ duration: 4, repeat: Infinity, delay: index * 0.6 }}>
+                        <FaLeaf className="w-4 h-4" style={{ color: "rgba(0,230,118,0.7)" }} />
+                      </motion.div>
+                    </div>
+                    {item.link && (
+                      <a href={item.link} target="_blank" rel="noopener noreferrer"
+                        className="transition-colors" style={{ color: "rgba(255,255,255,0.2)" }}
+                        aria-label={`Visit ${item.organization}`}>
+                        <FaExternalLinkAlt className="w-3.5 h-3.5 hover:text-[#00e676]" />
+                      </a>
+                    )}
+                  </div>
+
+                  <h3 className="font-black text-white mb-1.5 group-hover:text-[#00e676] transition-colors duration-300 uppercase tracking-tight">
+                    {item.role || "Contributor"}
                   </h3>
-                  <p className="text-xs font-bold text-blue-400/70 uppercase tracking-wider">{item.organization}</p>
+                  <p className="text-[11px] font-black uppercase tracking-widest mb-3"
+                    style={{ color: "rgba(0,230,118,0.6)" }}>
+                    {item.organization || "Community Initiative"}
+                  </p>
+                  <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.4)" }}>
+                    {item.description || ""}
+                  </p>
                 </div>
-                {item.link && (
-                  <a
-                    href={item.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-white/20 hover:text-blue-400 transition-colors mt-0.5 flex-shrink-0"
-                  >
-                    <FaExternalLinkAlt className="w-3.5 h-3.5" />
-                  </a>
-                )}
-              </div>
-
-              {item.description && (
-                <p className="text-sm text-white/35 leading-relaxed mt-3">{item.description}</p>
-              )}
-
-              {/* Bottom indicator line */}
-              <motion.div
-                initial={{ scaleX: 0 }}
-                whileHover={{ scaleX: 1 }}
-                className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-400/60 to-transparent origin-left"
-              />
-            </motion.div>
-          ))}
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>
