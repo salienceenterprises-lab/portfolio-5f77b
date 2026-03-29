@@ -30,10 +30,14 @@ export default function PortfolioNav({ data }) {
     setScrolled(latest > 50);
     setPastHero(latest > window.innerHeight * 0.8);
     const sectionIds = ["hero", ...activeLinks.map((l) => l.href.replace("#", ""))];
-    for (let i = sectionIds.length - 1; i >= 0; i--) {
-      const el = document.getElementById(sectionIds[i]);
-      if (el && latest >= el.offsetTop - 130) {
-        setActiveSection(sectionIds[i]);
+    // Sort by actual DOM position so the backwards scan works regardless of nav link order
+    const sorted = sectionIds
+      .map((id) => ({ id, top: document.getElementById(id)?.offsetTop ?? Infinity }))
+      .filter((s) => s.top !== Infinity)
+      .sort((a, b) => a.top - b.top);
+    for (let i = sorted.length - 1; i >= 0; i--) {
+      if (latest >= sorted[i].top - 130) {
+        setActiveSection(sorted[i].id);
         break;
       }
     }
