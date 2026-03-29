@@ -1,143 +1,135 @@
 "use client";
-import React from "react";
 import { motion } from "framer-motion";
+import { FaUser } from "react-icons/fa";
 
 export default function PortfolioAbout({ data }) {
-  if (!data?.bio) return null;
+  const topSkills = data?.skills?.slice(0, 8) || [];
 
   return (
-    <section id="about" className="relative py-28 px-6 overflow-hidden bg-[#040f1e]">
+    <section id="about" className="relative py-28 px-6 overflow-hidden bg-[#080d18]">
 
-      {/* Deep ocean ambient glow */}
+      {/* Ambient */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-cyan-500/[0.06] rounded-full blur-[160px]" />
-        <div className="absolute bottom-0 right-1/4 w-[400px] h-[300px] bg-blue-600/[0.05] rounded-full blur-[120px]" />
-        {/* Grid */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:72px_72px]" />
+        <div className="absolute top-0 left-0 w-[600px] h-[400px] bg-blue-700/[0.05] blur-[160px] rounded-full -translate-x-1/3 -translate-y-1/3" />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(59,130,246,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.02)_1px,transparent_1px)] bg-[size:48px_48px]" />
       </div>
 
-      <div className="max-w-5xl mx-auto relative z-10">
+      <div className="max-w-6xl mx-auto relative z-10">
 
         {/* Section label */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5 }}
           className="flex items-center gap-3 mb-3"
         >
-          <motion.div
-            initial={{ width: 0 }} whileInView={{ width: 32 }} viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="h-px bg-gradient-to-r from-cyan-400 to-transparent"
-          />
-          <span className="text-[10px] font-bold tracking-[0.35em] uppercase text-cyan-400/80">01 — About</span>
+          <span className="text-blue-400/40 font-black text-xs tracking-widest select-none">{"//"}</span>
+          <span className="text-[10px] font-black tracking-[0.35em] uppercase text-blue-400/80">01 — Who I Am</span>
+          <div className="flex-1 h-px bg-gradient-to-r from-blue-500/20 to-transparent max-w-[80px]" />
         </motion.div>
 
         <motion.h2
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.05 }}
-          className="text-4xl sm:text-5xl font-black tracking-tighter text-white mb-16 leading-tight"
+          transition={{ duration: 0.6, delay: 0.05 }}
+          className="text-4xl sm:text-6xl font-black tracking-tighter text-white mb-16 uppercase"
         >
-          Who I Am
+          About<span className="text-blue-400">.</span>
         </motion.h2>
 
-        {/* Content split */}
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-12 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
 
-          {/* Bio */}
+          {/* Left: Bio */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.1 }}
+            transition={{ duration: 0.6, type: "spring", stiffness: 80 }}
           >
-            {/* Quote treatment */}
-            <div className="relative">
-              <div className="absolute -left-5 top-0 bottom-0 w-[2px] bg-gradient-to-b from-cyan-400/60 via-cyan-400/20 to-transparent rounded-full" />
-              <p className="text-white/65 text-lg sm:text-xl leading-relaxed font-light pl-2">
-                {data.bio}
-              </p>
+            {/* Quote decoration + bio */}
+            <div className="relative mb-8">
+              <span className="absolute -top-4 -left-2 text-8xl font-black text-blue-500/10 leading-none select-none">"</span>
+              <div className="pl-6 border-l-2 border-blue-500/60 relative z-10">
+                <p className="text-white/55 text-base leading-[1.9] font-light">
+                  {data?.bio || data?.about || "Portfolio bio goes here."}
+                </p>
+              </div>
             </div>
 
-            {/* Quick-fire skills pills */}
-            {data?.skills?.length > 0 && (
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.25 }}
-                className="flex flex-wrap gap-2 mt-10"
-              >
-                {data.skills.slice(0, 8).map((skill) => (
-                  <span
-                    key={skill}
-                    className="px-4 py-2 text-[11px] font-bold text-cyan-300/80 bg-cyan-400/[0.07] border border-cyan-400/[0.15] rounded-full tracking-wide hover:bg-cyan-400/[0.14] hover:text-cyan-200 transition-all duration-300 cursor-default"
-                  >
-                    {skill}
-                  </span>
-                ))}
-                {data.skills.length > 8 && (
-                  <a
-                    href="#skills"
-                    className="px-4 py-2 text-[11px] font-bold text-white/25 bg-white/[0.03] border border-white/[0.07] rounded-full tracking-wide hover:text-white/50 transition-all duration-300"
-                  >
-                    +{data.skills.length - 8} more
-                  </a>
-                )}
-              </motion.div>
+            {/* Core stack */}
+            {topSkills.length > 0 && (
+              <div className="mt-10">
+                <div className="flex items-center gap-3 mb-5">
+                  <span className="text-[9px] font-black uppercase tracking-[0.35em] text-white/25">Core Stack</span>
+                  <div className="flex-1 h-px bg-white/[0.06]" />
+                </div>
+                <div className="flex flex-wrap gap-2.5">
+                  {topSkills.map((skill, i) => (
+                    <motion.span
+                      key={i}
+                      initial={{ opacity: 0, scale: 0.7 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.3, delay: i * 0.05 }}
+                      whileHover={{ borderColor: "rgba(59,130,246,0.7)", color: "rgba(147,197,253,1)" }}
+                      className="px-3.5 py-1.5 bg-blue-500/[0.07] border border-blue-500/20 text-blue-300/70 text-[10px] font-bold rounded-sm uppercase tracking-wider cursor-default transition-colors duration-200"
+                    >
+                      {skill}
+                    </motion.span>
+                  ))}
+                </div>
+              </div>
             )}
           </motion.div>
 
-          {/* Profile photo card */}
+          {/* Right: Photo */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2, type: "spring", stiffness: 80 }}
-            className="flex flex-col items-center lg:items-end gap-5"
+            transition={{ duration: 0.6, delay: 0.1, type: "spring", stiffness: 80 }}
+            className="flex justify-center"
           >
             {data?.heroImageBase64 ? (
-              <div className="relative w-48 h-48 sm:w-56 sm:h-56">
-                {/* Sonar rings */}
-                {[0, 1].map((i) => (
-                  <motion.div
-                    key={i}
-                    animate={{ scale: [1, 2.2], opacity: [0.15, 0] }}
-                    transition={{ duration: 3, repeat: Infinity, delay: i * 1.4, ease: "easeOut" }}
-                    className="absolute inset-0 rounded-full border border-cyan-400/20"
+              <div className="relative w-72 h-80">
+                {/* Corner bracket decorations */}
+                <div className="absolute -top-3 -left-3 w-7 h-7 border-t-2 border-l-2 border-blue-500/60 z-20" />
+                <div className="absolute -top-3 -right-3 w-7 h-7 border-t-2 border-r-2 border-blue-500/60 z-20" />
+                <div className="absolute -bottom-3 -left-3 w-7 h-7 border-b-2 border-l-2 border-blue-500/60 z-20" />
+                <div className="absolute -bottom-3 -right-3 w-7 h-7 border-b-2 border-r-2 border-blue-500/60 z-20" />
+
+                {/* Glow */}
+                <div className="absolute inset-0 bg-blue-500/15 blur-xl scale-105" />
+
+                {/* Photo */}
+                <div className="absolute inset-0 overflow-hidden border border-blue-500/25">
+                  <img
+                    src={data.heroImageBase64}
+                    alt={data.name}
+                    className="w-full h-full object-cover"
                   />
-                ))}
-                <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/20 to-blue-600/20 rounded-full blur-2xl scale-110" />
-                <div
-                  className="relative w-full h-full overflow-hidden border-2 border-cyan-400/25 shadow-[0_0_60px_rgba(6,182,212,0.15)]"
-                  style={{ clipPath: "polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)" }}
-                >
-                  <img src={data.heroImageBase64} alt={data.name} className="w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/[0.06] via-transparent to-blue-600/[0.06]" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#080d18]/60 to-transparent" />
+                </div>
+
+                {/* Name tag */}
+                <div className="absolute bottom-4 left-4 right-4 z-10">
+                  <div className="bg-[#050505]/80 backdrop-blur-sm border border-blue-500/20 px-3 py-2">
+                    <p className="text-xs font-black text-white/80 tracking-wider uppercase">{data?.name}</p>
+                    <p className="text-[9px] text-blue-400/70 font-bold uppercase tracking-widest mt-0.5">{data?.title}</p>
+                  </div>
                 </div>
               </div>
             ) : (
-              <div className="relative w-40 h-40 sm:w-48 sm:h-48">
-                <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/15 to-blue-600/15 rounded-full blur-2xl" />
-                <div
-                  className="relative w-full h-full bg-gradient-to-br from-[#061e34] to-[#041120] border-2 border-cyan-400/20 flex items-center justify-center"
-                  style={{ clipPath: "polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)" }}
-                >
-                  <span className="text-5xl font-black bg-gradient-to-b from-cyan-300 to-blue-500 bg-clip-text text-transparent select-none">
-                    {data.name?.charAt(0) ?? "?"}
-                  </span>
-                </div>
+              <div className="relative w-72 h-80 bg-blue-500/[0.04] border border-blue-500/15 flex items-center justify-center">
+                <div className="absolute -top-3 -left-3 w-7 h-7 border-t-2 border-l-2 border-blue-500/40" />
+                <div className="absolute -top-3 -right-3 w-7 h-7 border-t-2 border-r-2 border-blue-500/40" />
+                <div className="absolute -bottom-3 -left-3 w-7 h-7 border-b-2 border-l-2 border-blue-500/40" />
+                <div className="absolute -bottom-3 -right-3 w-7 h-7 border-b-2 border-r-2 border-blue-500/40" />
+                <FaUser className="w-16 h-16 text-blue-500/20" />
               </div>
             )}
-
-            {/* Name card under photo */}
-            <div className="text-center lg:text-right">
-              <p className="text-sm font-bold text-white/80">{data.name}</p>
-              {data.title && <p className="text-xs text-cyan-400/70 mt-0.5">{data.title}</p>}
-            </div>
           </motion.div>
         </div>
       </div>
