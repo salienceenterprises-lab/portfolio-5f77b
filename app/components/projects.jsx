@@ -6,89 +6,89 @@ export default function PortfolioProjects({ data }) {
   if (!data?.projects?.length) return null;
 
   return (
-    <section id="projects" className="relative py-28 px-6 overflow-hidden bg-[#040f1e]">
+    <section id="projects" className="relative py-28 px-6 overflow-hidden bg-[#080d18]">
 
-      {/* Ambient depth */}
+      {/* Ambient */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-blue-600/[0.06] rounded-full blur-[160px]" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.014)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.014)_1px,transparent_1px)] bg-[size:72px_72px]" />
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-600/[0.05] blur-[150px] rounded-full translate-x-1/3 -translate-y-1/4" />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(59,130,246,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.02)_1px,transparent_1px)] bg-[size:48px_48px]" />
       </div>
 
-      <div className="max-w-5xl mx-auto relative z-10">
+      <div className="max-w-6xl mx-auto relative z-10">
 
-        {/* Header */}
+        {/* Section label */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5 }}
           className="flex items-center gap-3 mb-3"
         >
-          <motion.div
-            initial={{ width: 0 }} whileInView={{ width: 32 }} viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="h-px bg-gradient-to-r from-cyan-400 to-transparent"
-          />
-          <span className="text-[10px] font-bold tracking-[0.35em] uppercase text-cyan-400/80">03 — Projects</span>
+          <span className="text-blue-400/40 font-black text-xs tracking-widest select-none">{"//"}</span>
+          <span className="text-[10px] font-black tracking-[0.35em] uppercase text-blue-400/80">03 — Operations</span>
+          <div className="flex-1 h-px bg-gradient-to-r from-blue-500/20 to-transparent max-w-[80px]" />
         </motion.div>
 
         <motion.h2
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.05 }}
-          className="text-4xl sm:text-5xl font-black tracking-tighter text-white mb-4"
+          transition={{ duration: 0.6, delay: 0.05 }}
+          className="text-4xl sm:text-6xl font-black tracking-tighter text-white mb-4 uppercase"
         >
-          What I've Built
+          Projects<span className="text-blue-400">.</span>
         </motion.h2>
+
         <motion.p
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.15 }}
-          className="text-white/30 text-sm mb-16 max-w-md"
+          transition={{ duration: 0.5, delay: 0.15 }}
+          className="text-white/30 text-sm mb-16 max-w-sm"
         >
-          A selection of projects I'm proud of — from concept to deployment.
+          Selected work — executed with precision.
         </motion.p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {data.projects.map((proj, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 28 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.07 }}
+              transition={{ duration: 0.5, delay: index * 0.08 }}
               whileHover={{ y: -6 }}
-              className="group relative bg-white/[0.03] border border-white/[0.07] rounded-2xl overflow-hidden hover:border-cyan-500/30 hover:shadow-[0_20px_60px_rgba(6,182,212,0.1)] transition-all duration-400"
+              className="group relative bg-blue-500/[0.03] border border-blue-500/15 overflow-hidden transition-all duration-300 hover:border-blue-500/45 hover:shadow-[0_20px_60px_rgba(59,130,246,0.12)]"
             >
-              {/* Background hover glow */}
-              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/[0.06] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400 pointer-events-none" />
+              {/* Corner bracket accents */}
+              <div className="absolute top-0 left-0 w-5 h-5 border-t-2 border-l-2 border-blue-500/0 group-hover:border-blue-500/70 transition-colors duration-400 z-20" />
+              <div className="absolute top-0 right-0 w-5 h-5 border-t-2 border-r-2 border-blue-500/0 group-hover:border-blue-500/70 transition-colors duration-400 z-20" />
 
+              {/* With image: cinematic banner */}
               {proj.imageBase64 ? (
-                /* Cinematic banner with image */
-                <div className="relative h-44 overflow-hidden">
+                <div className="relative h-48 overflow-hidden">
                   <img
                     src={proj.imageBase64}
                     alt={proj.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
-                  {/* Sonar ring overlay on hover */}
-                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#040f1e]" />
-                  <div className="absolute inset-0 bg-[#040f1e]/40 opacity-0 group-hover:opacity-100 transition-opacity duration-400" />
-                  {/* Index watermark */}
-                  <div className="absolute top-3 right-3 text-[10px] font-black text-white/15 tracking-widest">
-                    {String(index + 1).padStart(2, "0")}
-                  </div>
-                  {/* Links floating over image */}
-                  <div className="absolute bottom-3 right-3 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
+                  {/* Gradient vignette */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#080d18]/30 to-[#080d18]" />
+                  {/* Scan line on hover */}
+                  <motion.div
+                    initial={{ y: "-100%", opacity: 0 }}
+                    whileHover={{ y: "200%", opacity: 1 }}
+                    transition={{ duration: 0.8 }}
+                    className="absolute inset-x-0 h-px bg-gradient-to-r from-transparent via-blue-400/50 to-transparent"
+                  />
+                  {/* Hover link buttons */}
+                  <div className="absolute bottom-3 right-3 flex items-center gap-2 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 z-10">
                     {proj.github && (
                       <a
                         href={proj.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-1.5 px-3 py-1.5 bg-[#020c18]/90 border border-white/20 rounded-full text-[10px] font-bold text-white/80 hover:text-white hover:border-cyan-400/50 transition-all backdrop-blur-sm"
-                        onClick={(e) => e.stopPropagation()}
+                        className="flex items-center gap-1.5 px-3 py-1.5 bg-[#050505]/90 border border-blue-500/40 text-[10px] font-black uppercase tracking-wider text-white/70 hover:text-blue-300 hover:border-blue-400/70 transition-colors duration-200"
                       >
                         <FaGithub className="w-3 h-3" /> Code
                       </a>
@@ -98,8 +98,7 @@ export default function PortfolioProjects({ data }) {
                         href={proj.demo}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-1.5 px-3 py-1.5 bg-cyan-500/80 border border-cyan-400/40 rounded-full text-[10px] font-bold text-white hover:bg-cyan-400 transition-all backdrop-blur-sm"
-                        onClick={(e) => e.stopPropagation()}
+                        className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-600/90 border border-blue-500/50 text-[10px] font-black uppercase tracking-wider text-white hover:bg-blue-500/90 transition-colors duration-200"
                       >
                         <FaExternalLinkAlt className="w-2.5 h-2.5" /> Live
                       </a>
@@ -107,23 +106,23 @@ export default function PortfolioProjects({ data }) {
                   </div>
                 </div>
               ) : (
-                /* Elegant no-image header strip */
-                <div className="relative h-20 bg-gradient-to-br from-[#061e34] to-[#041120] border-b border-white/[0.05] flex items-center px-6 overflow-hidden">
-                  <div className="absolute -right-4 -top-4 text-7xl font-black text-white/[0.03] select-none leading-none">
+                /* Without image: dark header with index watermark */
+                <div className="relative h-24 bg-gradient-to-br from-blue-900/20 to-[#050505] border-b border-blue-500/10 overflow-hidden flex items-center px-5">
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-7xl font-black text-blue-400/[0.07] select-none leading-none tabular-nums">
                     {String(index + 1).padStart(2, "0")}
-                  </div>
-                  <div className="relative z-10 flex items-center justify-between w-full">
-                    <div className="w-9 h-9 rounded-lg bg-cyan-500/10 border border-cyan-400/20 flex items-center justify-center">
-                      <FaFolder className="w-4 h-4 text-cyan-400/70" />
-                    </div>
-                    <div className="flex items-center gap-3">
+                  </span>
+                  <div className="flex items-center gap-3 relative z-10">
+                    <FaFolder className="w-5 h-5 text-blue-400/50 flex-shrink-0" />
+                    <div className="flex gap-2">
                       {proj.github && (
-                        <a href={proj.github} target="_blank" rel="noopener noreferrer" className="text-white/25 hover:text-white transition-colors">
+                        <a href={proj.github} target="_blank" rel="noopener noreferrer"
+                          className="text-white/30 hover:text-blue-400 transition-colors">
                           <FaGithub className="w-4 h-4" />
                         </a>
                       )}
                       {proj.demo && (
-                        <a href={proj.demo} target="_blank" rel="noopener noreferrer" className="text-white/25 hover:text-cyan-400 transition-colors">
+                        <a href={proj.demo} target="_blank" rel="noopener noreferrer"
+                          className="text-white/30 hover:text-blue-400 transition-colors">
                           <FaExternalLinkAlt className="w-3.5 h-3.5" />
                         </a>
                       )}
@@ -133,21 +132,18 @@ export default function PortfolioProjects({ data }) {
               )}
 
               {/* Card body */}
-              <div className="p-6 flex flex-col flex-1">
-                <h3 className="text-base font-bold text-white mb-2 group-hover:text-cyan-300 transition-colors duration-300">
+              <div className="p-5">
+                <h3 className="font-black text-white text-sm uppercase tracking-wider mb-2 group-hover:text-blue-200 transition-colors duration-300">
                   {proj.title}
                 </h3>
-                <p className="text-sm text-white/45 leading-relaxed flex-1">
-                  {proj.description}
-                </p>
-
-                {proj.stack?.length > 0 && (
-                  <div className="flex flex-wrap gap-1.5 mt-5 pt-4 border-t border-white/[0.05]">
-                    {proj.stack.filter(t => t?.trim()).map((tech) => (
-                      <span
-                        key={tech}
-                        className="text-[10px] font-bold text-cyan-400/60 bg-cyan-400/[0.06] border border-cyan-400/10 px-2.5 py-1 rounded-md tracking-wide"
-                      >
+                {proj.description && (
+                  <p className="text-sm text-white/35 leading-relaxed mb-4">{proj.description}</p>
+                )}
+                {proj.tech?.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5 pt-4 border-t border-white/[0.05]">
+                    {proj.tech.filter((t) => t?.trim()).map((tech) => (
+                      <span key={tech}
+                        className="text-[9px] font-bold uppercase tracking-wider text-blue-400/50 bg-blue-500/[0.07] border border-blue-500/15 px-2 py-0.5">
                         {tech}
                       </span>
                     ))}
