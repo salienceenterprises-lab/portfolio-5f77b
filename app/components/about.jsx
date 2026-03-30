@@ -2,99 +2,95 @@
 import { motion } from "framer-motion";
 
 export default function PortfolioAbout({ data }) {
-  if (!data?.bio) return null;
+  const topSkills = data?.skills?.slice(0, 8) || [];
   const hasPhoto = !!data?.heroImageBase64;
 
   return (
-    <section id="about" className="relative py-28 px-6 overflow-hidden bg-[#020b04]">
+    <section id="about" className="relative py-28 px-6 overflow-hidden bg-[#100b05]">
 
+      {/* Ambient warm */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full blur-[200px]"
-          style={{ background: "radial-gradient(circle, rgba(0,230,118,0.05), transparent 70%)" }} />
-        {[15, 50, 85].map((left, i) => (
-          <div key={i} className="absolute top-0 bottom-0 w-px"
-            style={{ left: `${left}%`, background: "rgba(0,230,118,0.03)" }} />
-        ))}
+        <div className="absolute top-0 right-0 w-[600px] h-[500px] rounded-full blur-[180px] translate-x-1/3 -translate-y-1/4"
+          style={{ background: "radial-gradient(ellipse,rgba(251,191,36,0.06),transparent 70%)" }} />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(251,191,36,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(251,191,36,0.02)_1px,transparent_1px)] bg-[size:64px_64px]" />
       </div>
 
-      <div className="max-w-5xl mx-auto relative z-10">
+      <div className="max-w-6xl mx-auto relative z-10">
 
-        {/* Header */}
-        <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }} transition={{ duration: 0.6 }}
+        {/* Section label */}
+        <motion.div initial={{ opacity:0,x:-20 }} whileInView={{ opacity:1,x:0 }} viewport={{ once:true }} transition={{ duration:0.5 }}
           className="flex items-center gap-3 mb-3">
-          <span className="font-black text-base" style={{ color: "#00e676" }}>›</span>
-          <span className="text-[10px] font-black tracking-[0.4em] uppercase"
-            style={{ color: "rgba(0,230,118,0.7)" }}>01 — About</span>
+          <span className="text-[10px] font-black tracking-[0.35em] uppercase text-amber-400/70">[ 01 / About ]</span>
+          <div className="flex-1 h-px bg-gradient-to-r from-amber-500/25 to-transparent max-w-[100px]" />
         </motion.div>
 
-        <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.05 }}
-          className="text-4xl sm:text-5xl font-black tracking-tighter text-white mb-4 uppercase">
-          The Story<br />Behind the Work
+        <motion.h2 initial={{ opacity:0,y:18 }} whileInView={{ opacity:1,y:0 }} viewport={{ once:true }} transition={{ duration:0.6,delay:0.05 }}
+          className="text-4xl sm:text-6xl font-black tracking-tighter text-white mb-16">
+          Who I Am<span className="text-amber-400">.</span>
         </motion.h2>
-        <motion.div initial={{ width: 0 }} whileInView={{ width: 80 }} viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="h-0.5 mb-16" style={{ background: "linear-gradient(90deg, #00e676, transparent)" }} />
 
-        <div className={`grid gap-14 items-start ${hasPhoto ? "grid-cols-1 lg:grid-cols-5" : "grid-cols-1 max-w-3xl"}`}>
+        <div className={`grid gap-16 items-center ${hasPhoto ? "grid-cols-1 lg:grid-cols-2" : "grid-cols-1 max-w-3xl"}`}>
 
           {/* Bio */}
-          <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.1 }}
-            className={`${hasPhoto ? "lg:col-span-3" : ""} relative pl-6`}>
-            {/* Left border accent */}
-            <motion.div initial={{ height: 0 }} whileInView={{ height: "100%" }}
-              viewport={{ once: true }} transition={{ duration: 1.2, ease: "easeOut" }}
-              className="absolute left-0 top-0 w-0.5 origin-top"
-              style={{ background: "linear-gradient(to bottom, #00e676, rgba(0,230,118,0.1))" }} />
-            <p className="text-white/55 text-lg leading-[1.8] mb-8">{data.bio}</p>
+          <motion.div initial={{ opacity:0,x:-30 }} whileInView={{ opacity:1,x:0 }} viewport={{ once:true }}
+            transition={{ duration:0.6,type:"spring",stiffness:80 }}>
+            {/* Warm accent quote line */}
+            <div className="relative mb-8">
+              <div className="absolute left-0 top-0 bottom-0 w-0.5 rounded-full"
+                style={{ background: "linear-gradient(180deg,#fbbf24,#f97316,transparent)" }} />
+              <div className="pl-6">
+                <p className="text-white/55 text-base leading-[1.95] font-light">
+                  {data?.bio || data?.about || "Portfolio bio goes here."}
+                </p>
+              </div>
+            </div>
 
-            {data?.skills && data.skills.length > 0 && (
-              <div className="flex flex-wrap gap-2">
-                {data.skills.slice(0, 8).map((skill, i) => (
-                  <motion.span key={skill}
-                    initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }} transition={{ delay: i * 0.04 }}
-                    className="px-3.5 py-1.5 text-[10px] font-black uppercase tracking-wider border transition-all cursor-default"
-                    style={{
-                      color: "rgba(0,230,118,0.7)",
-                      borderColor: "rgba(0,230,118,0.15)",
-                      background: "rgba(0,230,118,0.04)",
-                    }}>
-                    {skill}
-                  </motion.span>
-                ))}
-                {data.skills.length > 8 && (
-                  <a href="#skills"
-                    className="px-3.5 py-1.5 text-[10px] font-black uppercase tracking-wider border transition-all hover:border-[#00e676]/40"
-                    style={{ color: "rgba(255,255,255,0.3)", borderColor: "rgba(255,255,255,0.08)" }}>
-                    +{data.skills.length - 8} more
-                  </a>
-                )}
+            {topSkills.length > 0 && (
+              <div className="mt-10">
+                <div className="flex items-center gap-3 mb-5">
+                  <span className="text-[9px] font-black uppercase tracking-[0.35em] text-white/25">Core Stack</span>
+                  <div className="flex-1 h-px bg-white/[0.06]" />
+                </div>
+                <div className="flex flex-wrap gap-2.5">
+                  {topSkills.map((skill, i) => (
+                    <motion.span key={i}
+                      initial={{ opacity:0,scale:0.7 }} whileInView={{ opacity:1,scale:1 }} viewport={{ once:true }}
+                      transition={{ duration:0.3,delay:i*0.05 }}
+                      whileHover={{ scale:1.08 }}
+                      className="px-3.5 py-1.5 text-[10px] font-bold rounded-full cursor-default transition-all duration-200 border border-amber-500/20 text-amber-300/70 hover:border-amber-400/60 hover:text-amber-200"
+                      style={{ background: "rgba(251,191,36,0.06)" }}>
+                      {skill}
+                    </motion.span>
+                  ))}
+                </div>
               </div>
             )}
           </motion.div>
 
-          {/* Photo */}
+          {/* Photo — only rendered if it exists */}
           {hasPhoto && (
-            <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.2 }}
-              className="lg:col-span-2 flex justify-center lg:justify-end">
-              <div className="relative">
-                <div className="absolute inset-0 blur-[40px]"
-                  style={{ background: "rgba(0,230,118,0.1)", transform: "scale(1.3)" }} />
-                <div className="relative" style={{ border: "1.5px solid rgba(0,230,118,0.25)" }}>
-                  <img src={data.heroImageBase64} alt={data.name}
-                    className="w-52 h-64 object-cover block"
-                    style={{ clipPath: "polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%)" }} />
-                  <div className="absolute top-0 right-0 w-6 h-6 border-b border-l"
-                    style={{ background: "#020b04", borderColor: "rgba(0,230,118,0.25)" }} />
+            <motion.div initial={{ opacity:0,x:30 }} whileInView={{ opacity:1,x:0 }} viewport={{ once:true }}
+              transition={{ duration:0.6,delay:0.1,type:"spring",stiffness:80 }}
+              className="flex justify-center">
+              <div className="relative w-72 h-80">
+                {/* Warm glow */}
+                <div className="absolute inset-0 scale-110 blur-2xl rounded-[60%_40%_55%_45%]"
+                  style={{ background: "radial-gradient(ellipse,rgba(251,191,36,0.2),rgba(249,115,22,0.1),transparent 70%)" }} />
+                {/* Orbit ring */}
+                <motion.div animate={{ rotate:360 }} transition={{ duration:22,repeat:Infinity,ease:"linear" }}
+                  className="absolute -inset-4 border border-dashed border-amber-400/15 rounded-[60%_40%_55%_45%]" />
+                {/* Photo */}
+                <div className="absolute inset-0 overflow-hidden border border-amber-400/25 rounded-[60%_40%_55%_45%]">
+                  <img src={data.heroImageBase64} alt={data.name} className="w-full h-full object-cover scale-110" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#100b05]/50 to-transparent" />
                 </div>
-                <div className="absolute -top-2 -left-2 w-5 h-5 border-t-2 border-l-2"
-                  style={{ borderColor: "#00e676" }} />
-                <div className="absolute -bottom-2 -right-2 w-5 h-5 border-b-2 border-r-2"
-                  style={{ borderColor: "#00e676" }} />
+                {/* Name tag */}
+                <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap">
+                  <div className="px-4 py-1.5 rounded-full border border-amber-500/25 backdrop-blur-sm"
+                    style={{ background:"rgba(251,191,36,0.07)" }}>
+                    <p className="text-[10px] font-black text-amber-300/80 uppercase tracking-wider">{data?.title}</p>
+                  </div>
+                </div>
               </div>
             </motion.div>
           )}
