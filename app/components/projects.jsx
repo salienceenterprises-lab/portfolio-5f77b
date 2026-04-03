@@ -1,100 +1,86 @@
 "use client";
+import React from "react";
 import { motion } from "framer-motion";
-import { FaGithub, FaExternalLinkAlt, FaFolder } from "react-icons/fa";
+import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
 
 export default function PortfolioProjects({ data }) {
-  if (!data?.projects?.length) return null;
+  const items = data?.projects;
+  if (!items || !Array.isArray(items) || items.length === 0) return null;
 
   return (
-    <section id="projects" className="relative py-28 px-6 overflow-hidden bg-[#100b05]">
+    <section id="projects" style={{ background:"#07060a", padding:"8rem 2rem", position:"relative", overflow:"hidden", borderTop:"1px solid rgba(201,168,76,0.06)" }}>
+      <style>{`
+        .gn-proj-card {
+          position:relative; padding:2.5rem;
+          border-top:1px solid rgba(201,168,76,0.12);
+          border-left:1px solid transparent;
+          border-right:1px solid transparent;
+          border-bottom:1px solid rgba(201,168,76,0.06);
+          display:flex; flex-direction:column; height:100%;
+          transition:all 0.35s ease; overflow:hidden; cursor:default;
+        }
+        .gn-proj-card::after {
+          content:'';
+          position:absolute; left:0; top:0; bottom:0; width:1px;
+          background:linear-gradient(180deg, #c9a84c, rgba(201,168,76,0.1), transparent);
+          transform:scaleY(0); transform-origin:top; transition:transform 0.4s ease;
+        }
+        .gn-proj-card:hover { background:rgba(201,168,76,0.025); border-top-color:rgba(201,168,76,0.4); box-shadow:0 0 60px rgba(201,168,76,0.06); }
+        .gn-proj-card:hover::after { transform:scaleY(1); }
+        .gn-proj-link { color:rgba(245,238,217,0.3); text-decoration:none; transition:color 0.2s; }
+        .gn-proj-link:hover { color:#c9a84c; }
+        .gn-tech-tag { font-size:10px; font-weight:700; padding:3px 10px; border:1px solid rgba(201,168,76,0.15); color:rgba(201,168,76,0.6); background:rgba(201,168,76,0.03); letter-spacing:0.08em; }
+      `}</style>
 
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 right-0 w-[700px] h-[600px] rounded-full blur-[180px] translate-x-1/3 -translate-y-1/4"
-          style={{ background:"radial-gradient(ellipse,rgba(249,115,22,0.06),transparent 70%)" }} />
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(251,191,36,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(251,191,36,0.02)_1px,transparent_1px)] bg-[size:64px_64px]" />
-      </div>
+      <div style={{ position:"absolute", top:"2rem", right:"2rem", fontSize:"220px", fontWeight:900, lineHeight:1, color:"transparent", WebkitTextStrokeWidth:"1px", WebkitTextStrokeColor:"rgba(201,168,76,0.04)", pointerEvents:"none", userSelect:"none" }}>04</div>
 
-      <div className="max-w-6xl mx-auto relative z-10">
-        <motion.div initial={{ opacity:0,x:-20 }} whileInView={{ opacity:1,x:0 }} viewport={{ once:true }} transition={{ duration:0.5 }}
-          className="flex items-center gap-3 mb-3">
-          <span className="text-[10px] font-black tracking-[0.35em] uppercase text-amber-400/70">[ 04 / Work ]</span>
-          <div className="flex-1 h-px bg-gradient-to-r from-amber-500/25 to-transparent max-w-[100px]" />
+      <div style={{ maxWidth:"1280px", margin:"0 auto", position:"relative", zIndex:1 }}>
+        <motion.div initial={{ opacity:0, x:-30 }} whileInView={{ opacity:1, x:0 }} viewport={{ once:true }} transition={{ duration:0.7 }} style={{ marginBottom:"4rem" }}>
+          <div style={{ display:"flex", alignItems:"center", gap:"16px", marginBottom:"1rem" }}>
+            <span style={{ fontSize:"11px", fontWeight:800, letterSpacing:"0.45em", color:"rgba(201,168,76,0.5)", textTransform:"uppercase" }}>04</span>
+            <div style={{ width:"40px", height:"1px", background:"linear-gradient(90deg, #c9a84c, transparent)" }} />
+          </div>
+          <h2 style={{ fontSize:"clamp(2rem, 4vw, 3.5rem)", fontWeight:900, letterSpacing:"-0.04em", color:"#f5eed9", margin:0, textTransform:"uppercase" }}>Projects</h2>
+          <div style={{ width:"60px", height:"1px", background:"linear-gradient(90deg, #c9a84c, transparent)", marginTop:"1rem" }} />
         </motion.div>
 
-        <motion.h2 initial={{ opacity:0,y:18 }} whileInView={{ opacity:1,y:0 }} viewport={{ once:true }} transition={{ duration:0.6,delay:0.05 }}
-          className="text-4xl sm:text-6xl font-black tracking-tighter text-white mb-4">
-          Projects<span className="text-amber-400">.</span>
-        </motion.h2>
-        <motion.p initial={{ opacity:0 }} whileInView={{ opacity:1 }} viewport={{ once:true }} transition={{ duration:0.5,delay:0.15 }}
-          className="text-white/30 text-sm mb-16 max-w-sm">
-          Selected work — crafted with care.
-        </motion.p>
-
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {data.projects.map((proj, index) => (
-            <motion.div key={index}
-              initial={{ opacity:0,y:28 }} whileInView={{ opacity:1,y:0 }} viewport={{ once:true }}
-              transition={{ duration:0.5,delay:index*0.08 }}
-              whileHover={{ y:-6 }}
-              className="group relative border border-amber-500/15 overflow-hidden rounded-2xl transition-all duration-300 hover:border-amber-400/40 hover:shadow-[0_20px_60px_rgba(251,191,36,0.1)]"
-              style={{ background:"rgba(251,191,36,0.03)" }}>
-
-              {/* With image */}
-              {proj.imageBase64 ? (
-                <div className="relative h-48 overflow-hidden">
-                  <img src={proj.imageBase64} alt={proj.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#100b05]/30 to-[#100b05]" />
-                  {/* Heat shimmer on hover */}
-                  <motion.div
-                    initial={{ x:"-100%",opacity:0 }} whileHover={{ x:"200%",opacity:1 }}
-                    transition={{ duration:0.7 }}
-                    className="absolute inset-y-0 w-1/3 bg-gradient-to-r from-transparent via-amber-400/15 to-transparent skew-x-12 pointer-events-none" />
-                  <div className="absolute bottom-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 z-10">
-                    {proj.github && (
-                      <a href={proj.github} target="_blank" rel="noopener noreferrer"
-                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider text-white/70 hover:text-amber-300 border border-amber-500/30 backdrop-blur-sm transition-colors"
-                        style={{ background:"rgba(12,9,4,0.85)" }}>
-                        <FaGithub className="w-3 h-3" /> Code
-                      </a>
-                    )}
-                    {proj.demo && (
-                      <a href={proj.demo} target="_blank" rel="noopener noreferrer"
-                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider text-black transition-colors"
-                        style={{ background:"linear-gradient(135deg,#fbbf24,#f97316)" }}>
-                        <FaExternalLinkAlt className="w-2.5 h-2.5" /> Live
-                      </a>
-                    )}
-                  </div>
-                </div>
-              ) : (
-                /* No image — warm header strip */
-                <div className="relative h-24 border-b border-amber-500/10 overflow-hidden flex items-center px-5"
-                  style={{ background:"linear-gradient(135deg,rgba(251,191,36,0.06),rgba(249,115,22,0.03),rgba(12,9,4,0))" }}>
-                  <span className="absolute right-4 top-1/2 -translate-y-1/2 text-7xl font-black select-none leading-none tabular-nums"
-                    style={{ WebkitTextFillColor:"transparent", WebkitTextStrokeWidth:"1px", WebkitTextStrokeColor:"rgba(251,191,36,0.08)" }}>
-                    {String(index + 1).padStart(2, "0")}
+        {/* Gap-px editorial grid — container is the border color, children are bg */}
+        <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(340px,1fr))", gap:"1px", background:"rgba(201,168,76,0.06)" }}>
+          {items.map((proj, i) => (
+            <motion.div key={i} initial={{ opacity:0, y:30 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} transition={{ duration:0.5, delay:i*0.07 }}
+              style={{ background:"#07060a", height:"100%" }}>
+              <div className="gn-proj-card">
+                {/* Header row */}
+                <div style={{ display:"flex", alignItems:"flex-start", justifyContent:"space-between", marginBottom:"1.5rem", gap:"1rem" }}>
+                  {/* Roman numeral index */}
+                  <span style={{ fontSize:"11px", fontWeight:800, letterSpacing:"0.3em", color:"rgba(201,168,76,0.3)" }}>
+                    {["I","II","III","IV","V","VI","VII","VIII","IX","X"][i] || String(i+1).padStart(2,"0")}
                   </span>
-                  <div className="flex items-center gap-3 relative z-10">
-                    <FaFolder className="w-5 h-5 text-amber-400/40 flex-shrink-0" />
-                    <div className="flex gap-2">
-                      {proj.github && <a href={proj.github} target="_blank" rel="noopener noreferrer" className="text-white/30 hover:text-amber-400 transition-colors"><FaGithub className="w-4 h-4" /></a>}
-                      {proj.demo && <a href={proj.demo} target="_blank" rel="noopener noreferrer" className="text-white/30 hover:text-amber-400 transition-colors"><FaExternalLinkAlt className="w-3.5 h-3.5" /></a>}
-                    </div>
+                  <div style={{ display:"flex", gap:"12px" }}>
+                    {proj.github && (
+                      <a href={proj.github} target="_blank" rel="noopener noreferrer" className="gn-proj-link" aria-label="GitHub">
+                        <FaGithub size={16} />
+                      </a>
+                    )}
+                    {(proj.link || proj.demo) && (
+                      <a href={proj.link || proj.demo} target="_blank" rel="noopener noreferrer" className="gn-proj-link" aria-label="Live">
+                        <FaExternalLinkAlt size={14} />
+                      </a>
+                    )}
                   </div>
                 </div>
-              )}
 
-              <div className="p-5">
-                <h3 className="font-black text-white text-sm mb-2 group-hover:text-amber-200 transition-colors duration-300">{proj.title}</h3>
-                {proj.description && <p className="text-sm text-white/35 leading-relaxed mb-4">{proj.description}</p>}
-                {proj.tech?.length > 0 && (
-                  <div className="flex flex-wrap gap-1.5 pt-4 border-t border-white/[0.05]">
-                    {proj.tech.filter(t => t?.trim()).map((tech) => (
-                      <span key={tech} className="text-[9px] font-bold uppercase tracking-wider text-amber-400/50 px-2 py-0.5 rounded-full border border-amber-500/15"
-                        style={{ background:"rgba(251,191,36,0.05)" }}>
-                        {tech}
-                      </span>
+                <h3 style={{ fontSize:"18px", fontWeight:900, color:"#f5eed9", margin:"0 0 10px", letterSpacing:"-0.03em", textTransform:"uppercase", lineHeight:1.2 }}>
+                  {proj.title || "Untitled"}
+                </h3>
+                <p style={{ fontSize:"13px", color:"rgba(245,238,217,0.45)", lineHeight:1.7, margin:0, flex:1 }}>
+                  {proj.description}
+                </p>
+
+                {(proj.tech || proj.stack) && Array.isArray(proj.tech || proj.stack) && (
+                  <div style={{ display:"flex", flexWrap:"wrap", gap:"6px", marginTop:"1.5rem", paddingTop:"1.25rem", borderTop:"1px solid rgba(201,168,76,0.07)" }}>
+                    {(proj.tech || proj.stack).map((t, j) => (
+                      <span key={j} className="gn-tech-tag">{t}</span>
                     ))}
                   </div>
                 )}
