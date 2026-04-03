@@ -1,230 +1,209 @@
 "use client";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { FaDownload, FaEnvelope, FaChevronDown } from "react-icons/fa";
+import React from "react";
+import { motion } from "framer-motion";
+import { FaEnvelope, FaDownload, FaArrowDown } from "react-icons/fa";
+
+// ── Gilded Noir ─ bg:#07060a · gold:#c9a84c · hi-gold:#f0cc6e · cream:#f5eed9
 
 export default function PortfolioHero({ data }) {
-  const { scrollY } = useScroll();
-  const opacity = useTransform(scrollY, [0, 400], [1, 0]);
-  const yText = useTransform(scrollY, [0, 400], [0, 60]);
+  const hasPhoto  = !!data?.heroImageBase64;
+  const firstName = data?.name?.split(" ")[0] ?? "";
+  const restName  = data?.name?.split(" ").slice(1).join(" ") ?? "";
 
-  const scrollToContact = () =>
-    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
-
-  const stats = [
-    data?.experience?.length > 0 && { label: "Roles", value: data.experience.length },
-    data?.projects?.length > 0 && { label: "Projects", value: data.projects.length },
-    data?.skills?.length > 0 && { label: "Skills", value: data.skills.length },
-  ].filter(Boolean);
-
-  const firstName = data?.name?.split(" ")[0] || "";
-  const lastName = data?.name?.split(" ").slice(1).join(" ") || "";
+  const scrollTo = (id) => {
+    const el = document.getElementById(id);
+    if (el) window.scrollTo({ top: el.offsetTop - 72, behavior: "smooth" });
+  };
 
   return (
-    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0c0904]">
+    <section id="hero" style={{ position:"relative", minHeight:"100vh", background:"#07060a", display:"flex", alignItems:"center", overflow:"hidden" }}>
+      <style>{`
+        @keyframes gn-drift { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-20px);} }
+        @keyframes gn-spin  { from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
+        @keyframes gn-orbit { from{transform:rotate(0deg) translateX(58px) rotate(0deg);} to{transform:rotate(360deg) translateX(58px) rotate(-360deg);} }
+        @keyframes gn-bob   { 0%,100%{transform:translateY(0);} 50%{transform:translateY(7px);} }
+        @keyframes gn-shimmer { 0%,100%{opacity:0.4;} 50%{opacity:1;} }
+        @keyframes gn-line-grow { from{transform:scaleX(0);} to{transform:scaleX(1);} }
+        .gn-cta-primary {
+          display:inline-flex; align-items:center; gap:10px; cursor:pointer;
+          padding:15px 36px; border:1px solid #c9a84c;
+          background:rgba(201,168,76,0.08); color:#f0cc6e;
+          font-size:11px; font-weight:800; letter-spacing:0.25em; text-transform:uppercase;
+          text-decoration:none;
+          transition:all 0.25s ease;
+          clip-path:polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+        }
+        .gn-cta-primary:hover { background:rgba(201,168,76,0.18); box-shadow:0 0 40px rgba(201,168,76,0.2); color:#fff8e7; }
+        .gn-cta-secondary {
+          display:inline-flex; align-items:center; gap:10px; cursor:pointer; background:none; border:none;
+          color:rgba(245,238,217,0.4); font-size:11px; font-weight:700; letter-spacing:0.25em; text-transform:uppercase;
+          transition:color 0.2s; padding:0;
+        }
+        .gn-cta-secondary:hover { color:rgba(245,238,217,0.8); }
+        .gn-scroll-btn { background:none; border:none; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:6px; animation:gn-bob 2.5s ease-in-out infinite; }
+      `}</style>
 
-      {/* Radial warm glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_30%,rgba(251,191,36,0.08)_0%,transparent_65%)] pointer-events-none" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_20%_80%,rgba(249,115,22,0.06)_0%,transparent_55%)] pointer-events-none" />
+      {/* ── Gold-leaf geometric SVG background ── */}
+      <svg style={{ position:"absolute", inset:0, width:"100%", height:"100%", pointerEvents:"none" }} xmlns="http://www.w3.org/2000/svg">
+        {/* Fine grid lines */}
+        <defs>
+          <pattern id="gn-grid" width="80" height="80" patternUnits="userSpaceOnUse">
+            <path d="M 80 0 L 0 0 0 80" fill="none" stroke="rgba(201,168,76,0.04)" strokeWidth="0.5"/>
+          </pattern>
+          <radialGradient id="gn-vignette" cx="50%" cy="50%" r="70%">
+            <stop offset="0%" stopColor="transparent"/>
+            <stop offset="100%" stopColor="#07060a" stopOpacity="0.9"/>
+          </radialGradient>
+          <linearGradient id="gn-diag" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#c9a84c" stopOpacity="0"/>
+            <stop offset="50%" stopColor="#c9a84c" stopOpacity="0.12"/>
+            <stop offset="100%" stopColor="#c9a84c" stopOpacity="0"/>
+          </linearGradient>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#gn-grid)"/>
+        <rect width="100%" height="100%" fill="url(#gn-vignette)"/>
+        {/* Diagonal gold accent line */}
+        <line x1="0" y1="0" x2="100%" y2="100%" stroke="url(#gn-diag)" strokeWidth="1"/>
+        {/* Corner decorative marks */}
+        <g stroke="#c9a84c" strokeWidth="1" strokeOpacity="0.25" fill="none">
+          <path d="M 60 20 L 20 20 L 20 60" style={{ animation:"gn-shimmer 4s ease-in-out infinite" }}/>
+          <path d="M calc(100% - 60px) 20 L calc(100% - 20px) 20 L calc(100% - 20px) 60" style={{ animation:"gn-shimmer 4s 1s ease-in-out infinite" }}/>
+          <path d="M 20 calc(100% - 60px) L 20 calc(100% - 20px) L 60 calc(100% - 20px)" style={{ animation:"gn-shimmer 4s 2s ease-in-out infinite" }}/>
+          <path d="M calc(100% - 20px) calc(100% - 60px) L calc(100% - 20px) calc(100% - 20px) L calc(100% - 60px) calc(100% - 20px)" style={{ animation:"gn-shimmer 4s 3s ease-in-out infinite" }}/>
+        </g>
+      </svg>
 
-      {/* Warm grid */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(251,191,36,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(251,191,36,0.025)_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none" />
+      {/* Warm gold ambient glow */}
+      <div style={{ position:"absolute", top:"20%", left:hasPhoto?"5%":"50%", transform:hasPhoto?"none":"translateX(-50%)", width:"600px", height:"600px", borderRadius:"50%", background:"radial-gradient(circle, rgba(201,168,76,0.07) 0%, transparent 70%)", animation:"gn-drift 10s ease-in-out infinite", pointerEvents:"none" }} />
 
-      {/* Heat shimmer streaks */}
-      {[15, 35, 55, 75].map((pct, i) => (
-        <motion.div
-          key={i}
-          animate={{ x: ["-100%", "200%"] }}
-          transition={{ duration: 8 + i * 2, repeat: Infinity, ease: "linear", delay: i * 2.5 }}
-          className="absolute h-px bg-gradient-to-r from-transparent via-amber-400/20 to-transparent pointer-events-none"
-          style={{ top: `${pct}%`, width: "40%" }}
-        />
-      ))}
-
-      <motion.div style={{ opacity, y: yText }}
-        className="relative z-20 max-w-6xl mx-auto px-6 w-full grid grid-cols-1 md:grid-cols-2 gap-16 items-center py-32 min-h-screen">
-
-        {/* Left */}
-        <div className="order-2 md:order-1">
-
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: -12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="flex items-center gap-3 mb-8"
-          >
-            <div className="flex gap-1">
-              {[0,1,2].map(i => (
-                <motion.div key={i} animate={{ opacity: [0.3,1,0.3] }}
-                  transition={{ duration: 1.6, repeat: Infinity, delay: i * 0.3 }}
-                  className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-              ))}
-            </div>
-            <span className="text-[10px] font-black tracking-[0.4em] uppercase text-amber-400/80">{data?.title}</span>
+      {/* ── Content ── */}
+      <div style={{
+        position:"relative", zIndex:10, maxWidth:"1280px", margin:"0 auto",
+        padding:"100px 2rem 3rem",
+        display:"grid",
+        gridTemplateColumns: hasPhoto ? "1fr 380px" : "1fr",
+        gap:"5rem", alignItems:"center", width:"100%",
+      }}>
+        {/* Left: editorial text block */}
+        <div>
+          {/* Overline */}
+          <motion.div initial={{ opacity:0, x:-20 }} animate={{ opacity:1, x:0 }} transition={{ duration:0.7 }} style={{ display:"flex", alignItems:"center", gap:"16px", marginBottom:"2.5rem" }}>
+            <div style={{ width:"40px", height:"1px", background:"linear-gradient(90deg, #c9a84c, transparent)", animation:"gn-line-grow 1s ease forwards" }} />
+            <span style={{ fontSize:"10px", fontWeight:800, letterSpacing:"0.5em", color:"rgba(201,168,76,0.7)", textTransform:"uppercase" }}>
+              {data?.title || "Portfolio"}
+            </span>
           </motion.div>
 
-          {/* Name */}
-          <div className="mb-8 overflow-hidden">
-            <motion.div
-              initial={{ y: "100%" }}
-              animate={{ y: 0 }}
-              transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <h1 className="font-black tracking-tighter leading-none text-white w-full break-words"
-                style={{ fontSize: "clamp(2.5rem, 8vw, 5rem)" }}>
-                {firstName}
-              </h1>
-            </motion.div>
-            <motion.div
-              initial={{ y: "100%" }}
-              animate={{ y: 0 }}
-              transition={{ duration: 0.7, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <h1 className="font-black tracking-tighter leading-none w-full break-words"
-                style={{
-                  fontSize: "clamp(2.5rem, 8vw, 5rem)",
-                  background: "linear-gradient(135deg, #fbbf24 0%, #f97316 60%, #ef4444 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
+          {/* Massive editorial headline */}
+          <div style={{ marginBottom:"2.5rem" }}>
+            {/* First name — cream, massive */}
+            <div style={{ overflow:"hidden" }}>
+              <motion.div initial={{ y:80, opacity:0 }} animate={{ y:0, opacity:1 }} transition={{ duration:0.8, delay:0.1 }}>
+                <span style={{
+                  display:"block",
+                  fontSize:"clamp(4rem, 10vw, 9rem)",
+                  fontWeight:900, lineHeight:0.85,
+                  letterSpacing:"-0.05em",
+                  color:"#f5eed9",
+                  textTransform:"uppercase",
                 }}>
-                {lastName || "\u00A0"}
-              </h1>
-            </motion.div>
+                  {firstName}
+                </span>
+              </motion.div>
+            </div>
+
+            {/* Last name — outlined gold */}
+            <div style={{ overflow:"hidden" }}>
+              <motion.div initial={{ y:80, opacity:0 }} animate={{ y:0, opacity:1 }} transition={{ duration:0.8, delay:0.25 }}>
+                <span style={{
+                  display:"block",
+                  fontSize:"clamp(4rem, 10vw, 9rem)",
+                  fontWeight:900, lineHeight:0.85,
+                  letterSpacing:"-0.05em",
+                  color:"transparent",
+                  WebkitTextStrokeWidth:"1.5px",
+                  WebkitTextStrokeColor:"#c9a84c",
+                  textTransform:"uppercase",
+                  filter:"drop-shadow(0 0 30px rgba(201,168,76,0.25))",
+                }}>
+                  {restName || firstName}
+                </span>
+              </motion.div>
+            </div>
+
+            {/* Thin gold rule */}
+            <motion.div initial={{ scaleX:0 }} animate={{ scaleX:1 }} transition={{ duration:1, delay:0.5 }}
+              style={{ height:"1px", background:"linear-gradient(90deg, #c9a84c, rgba(201,168,76,0.2), transparent)", marginTop:"1.5rem", transformOrigin:"left" }} />
           </div>
 
-          {/* Slogan */}
-          <motion.p
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.7 }}
-            className="text-white/35 text-sm leading-relaxed max-w-xs mb-10"
-          >
-            {data?.sloganHeroSection}
+          {/* Tagline */}
+          <motion.p initial={{ opacity:0 }} animate={{ opacity:1 }} transition={{ duration:1, delay:0.6 }}
+            style={{ fontSize:"clamp(1rem, 1.8vw, 1.2rem)", fontWeight:300, color:"rgba(245,238,217,0.5)", maxWidth:"520px", lineHeight:1.75, marginBottom:"3rem", letterSpacing:"-0.01em" }}>
+            {data?.sloganHeroSection || data?.bio?.slice(0, 120)}
           </motion.p>
 
           {/* CTAs */}
-          <motion.div
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.9 }}
-            className="flex flex-wrap gap-4 mb-12"
-          >
+          <motion.div initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.6, delay:0.8 }}
+            style={{ display:"flex", flexWrap:"wrap", gap:"1.5rem", alignItems:"center" }}>
+            <button onClick={() => scrollTo("contact")} className="gn-cta-primary">
+              <FaEnvelope style={{ fontSize:"11px" }} /> Get In Touch
+            </button>
             {data?.resumeBase64 && (
-              <motion.a
-                whileHover={{ scale: 1.03, boxShadow: "0 0 35px rgba(251,191,36,0.35)" }}
-                whileTap={{ scale: 0.97 }}
-                href={`data:application/pdf;base64,${data.resumeBase64}`}
-                download={`${data.name || "Resume"}.pdf`}
-                className="flex items-center gap-2.5 px-7 py-3.5 font-black text-xs uppercase tracking-[0.15em] text-black rounded-full transition-all shadow-lg"
-                style={{ background: "linear-gradient(135deg, #fbbf24, #f97316)" }}
-              >
-                <FaDownload className="w-3.5 h-3.5" /> Resume
-              </motion.a>
+              <a href="/resume.pdf" download="Resume.pdf" className="gn-cta-secondary">
+                <FaDownload style={{ fontSize:"11px" }} /> Download Resume
+              </a>
             )}
-            <motion.button
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              onClick={scrollToContact}
-              className="flex items-center gap-2.5 px-7 py-3.5 border border-amber-500/30 text-white/60 text-xs font-black rounded-full hover:border-amber-400/60 hover:text-white/90 transition-all uppercase tracking-[0.15em]"
-            >
-              <FaEnvelope className="w-3.5 h-3.5 text-amber-400" /> Contact
-            </motion.button>
           </motion.div>
-
-          {/* Stats */}
-          {stats.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 1.2 }}
-              className="flex items-center gap-10 pt-8 border-t border-white/[0.06]"
-            >
-              {stats.map((s, i) => (
-                <div key={i}>
-                  <div className="text-3xl font-black tabular-nums"
-                    style={{ background: "linear-gradient(135deg,#fbbf24,#f97316)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent", backgroundClip:"text" }}>
-                    {String(s.value).padStart(2, "0")}
-                  </div>
-                  <div className="text-[9px] font-bold uppercase tracking-[0.3em] text-white/25 mt-0.5">{s.label}</div>
-                </div>
-              ))}
-            </motion.div>
-          )}
         </div>
 
-        {/* Right: Photo */}
-        <div className="order-1 md:order-2 flex justify-center items-center">
-          {data?.heroImageBase64 ? (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.9, delay: 0.2, type: "spring", stiffness: 70, damping: 14 }}
-              className="relative w-64 h-72 sm:w-80 sm:h-96"
-            >
-              {/* Warm glow */}
-              <div className="absolute inset-0 scale-110 blur-3xl rounded-[60%_40%_50%_50%]"
-                style={{ background: "radial-gradient(ellipse,rgba(251,191,36,0.25),rgba(249,115,22,0.1),transparent 70%)" }} />
+        {/* Right: photo with gold frame */}
+        {hasPhoto && (
+          <motion.div initial={{ opacity:0, scale:0.9 }} animate={{ opacity:1, scale:1 }} transition={{ duration:0.9, delay:0.35 }}
+            style={{ position:"relative", flexShrink:0 }}
+            className="hidden md:block"
+          >
+            {/* Outer gold border frame (square/angular) */}
+            <div style={{ position:"relative", width:"340px", height:"380px" }}>
+              {/* Corner accents */}
+              <div style={{ position:"absolute", top:"-8px", left:"-8px", width:"32px", height:"32px", borderTop:"2px solid #c9a84c", borderLeft:"2px solid #c9a84c", zIndex:3 }} />
+              <div style={{ position:"absolute", top:"-8px", right:"-8px", width:"32px", height:"32px", borderTop:"2px solid #c9a84c", borderRight:"2px solid #c9a84c", zIndex:3 }} />
+              <div style={{ position:"absolute", bottom:"-8px", left:"-8px", width:"32px", height:"32px", borderBottom:"2px solid #c9a84c", borderLeft:"2px solid #c9a84c", zIndex:3 }} />
+              <div style={{ position:"absolute", bottom:"-8px", right:"-8px", width:"32px", height:"32px", borderBottom:"2px solid #c9a84c", borderRight:"2px solid #c9a84c", zIndex:3 }} />
 
-              {/* Slow rotating orbit */}
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                className="absolute -inset-4 border border-dashed border-amber-400/15 rounded-[60%_40%_55%_45%]"
-              />
-              <motion.div
-                animate={{ rotate: -360 }}
-                transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                className="absolute -inset-8 border border-dashed border-orange-500/10 rounded-[45%_55%_40%_60%]"
-              />
+              {/* Gold glow behind photo */}
+              <div style={{ position:"absolute", inset:"-20px", background:"radial-gradient(ellipse, rgba(201,168,76,0.12) 0%, transparent 70%)", borderRadius:"4px", animation:"gn-drift 8s ease-in-out infinite", zIndex:0 }} />
 
-              {/* Photo in organic blob */}
-              <div className="absolute inset-0 overflow-hidden border-2 border-amber-400/30 rounded-[60%_40%_55%_45%]">
-                <img src={data.heroImageBase64} alt={data.name}
-                  className="w-full h-full object-cover scale-110" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0c0904]/50 to-transparent" />
+              {/* Spin ring */}
+              <div style={{ position:"absolute", inset:0, border:"1px solid transparent", borderTopColor:"rgba(201,168,76,0.6)", borderRightColor:"rgba(201,168,76,0.2)", borderRadius:"2px", animation:"gn-spin 12s linear infinite", zIndex:1 }} />
+
+              {/* Photo */}
+              <img src={data.heroImageBase64} alt={data.name} style={{
+                position:"absolute", inset:"8px",
+                width:"calc(100% - 16px)", height:"calc(100% - 16px)",
+                objectFit:"cover", display:"block", zIndex:2,
+                filter:"sepia(0.1) contrast(1.05)",
+              }} />
+
+              {/* Gold foil overlay strip */}
+              <div style={{ position:"absolute", bottom:0, left:0, right:0, height:"60px", background:"linear-gradient(to top, rgba(7,6,10,0.8), transparent)", zIndex:3, display:"flex", alignItems:"flex-end", padding:"12px 14px" }}>
+                <span style={{ fontSize:"10px", fontWeight:700, letterSpacing:"0.3em", color:"rgba(201,168,76,0.8)", textTransform:"uppercase" }}>{data.location || ""}</span>
               </div>
-
-              {/* Floating dots */}
-              {[["-top-2","-right-2"],["-bottom-2","-left-2"]].map(([t,l],i) => (
-                <motion.div key={i}
-                  animate={{ scale:[0.8,1.4,0.8], opacity:[0.5,1,0.5] }}
-                  transition={{ duration: 2.5, repeat: Infinity, delay: i * 1.2 }}
-                  className={`absolute ${t} ${l} w-3 h-3 rounded-full shadow-[0_0_12px_rgba(251,191,36,0.8)]`}
-                  style={{ background: "linear-gradient(135deg,#fbbf24,#f97316)" }}
-                />
-              ))}
-            </motion.div>
-          ) : (
-            /* No photo — show animated emblem only */
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 0.4 }}
-              className="relative w-40 h-40"
-            >
-              <motion.div animate={{ rotate: 360 }} transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-0 border border-dashed border-amber-400/20 rounded-full" />
-              <motion.div animate={{ rotate: -360 }} transition={{ duration: 26, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-4 border border-dashed border-orange-500/15 rounded-full" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-4xl font-black tracking-tighter"
-                  style={{ background:"linear-gradient(135deg,#fbbf24,#f97316)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent", backgroundClip:"text" }}>
-                  {data?.name?.split(" ").map(w=>w[0]).join("") || "BB"}
-                </span>
-              </div>
-            </motion.div>
-          )}
-        </div>
-      </motion.div>
+            </div>
+          </motion.div>
+        )}
+      </div>
 
       {/* Scroll cue */}
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20">
-        <motion.div animate={{ y: [0, 7, 0] }} transition={{ duration: 1.8, repeat: Infinity }}>
-          <FaChevronDown className="w-3.5 h-3.5 text-amber-400/35" />
-        </motion.div>
+      <motion.div initial={{ opacity:0 }} animate={{ opacity:1 }} transition={{ delay:2 }}
+        style={{ position:"absolute", bottom:"2rem", left:"50%", transform:"translateX(-50%)", zIndex:10 }}>
+        <button className="gn-scroll-btn" onClick={() => scrollTo("about")}>
+          <span style={{ fontSize:"9px", letterSpacing:"0.4em", color:"rgba(201,168,76,0.4)", textTransform:"uppercase", fontWeight:700 }}>Scroll</span>
+          <FaArrowDown style={{ color:"rgba(201,168,76,0.4)", fontSize:"11px" }} />
+        </button>
       </motion.div>
+
+      {/* Bottom fade */}
+      <div style={{ position:"absolute", bottom:0, left:0, right:0, height:"100px", background:"linear-gradient(to top, #07060a, transparent)", pointerEvents:"none" }} />
     </section>
   );
 }
