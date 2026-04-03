@@ -1,105 +1,69 @@
 "use client";
+import React from "react";
 import { motion } from "framer-motion";
-import { FaGraduationCap, FaMapMarkerAlt } from "react-icons/fa";
+import { FaGraduationCap } from "react-icons/fa";
 
 export default function PortfolioEducation({ data }) {
-  if (!data?.education?.length) return null;
+  const items = data?.education;
+  if (!items || !Array.isArray(items) || items.length === 0) return null;
 
   return (
-    <section id="education" className="relative py-28 px-6 overflow-hidden bg-[#100b05]">
+    <section id="education" style={{ background:"#07060a", padding:"8rem 2rem", position:"relative", overflow:"hidden", borderTop:"1px solid rgba(201,168,76,0.06)" }}>
+      <style>{`
+        .gn-edu-row { display:grid; grid-template-columns:120px 1fr; gap:2rem; padding:2.5rem 0; border-bottom:1px solid rgba(201,168,76,0.07); transition:all 0.3s; position:relative; }
+        .gn-edu-row:last-child { border-bottom:none; }
+        .gn-edu-row::before { content:''; position:absolute; left:0; top:0; width:1px; height:0; background:linear-gradient(180deg, #c9a84c, rgba(201,168,76,0.1)); transition:height 0.4s ease; }
+        .gn-edu-row:hover::before { height:100%; }
+        .gn-edu-row:hover { padding-left:1rem; }
+        @media(max-width:640px) { .gn-edu-row { grid-template-columns:1fr; gap:1rem; } }
+      `}</style>
 
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute bottom-0 left-0 w-[500px] h-[400px] rounded-full blur-[160px] -translate-x-1/4 translate-y-1/4"
-          style={{ background:"radial-gradient(ellipse,rgba(251,191,36,0.05),transparent 70%)" }} />
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(251,191,36,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(251,191,36,0.02)_1px,transparent_1px)] bg-[size:64px_64px]" />
-      </div>
+      <div style={{ position:"absolute", top:"2rem", right:"2rem", fontSize:"220px", fontWeight:900, lineHeight:1, color:"transparent", WebkitTextStrokeWidth:"1px", WebkitTextStrokeColor:"rgba(201,168,76,0.04)", pointerEvents:"none", userSelect:"none" }}>02</div>
+      <div style={{ position:"absolute", bottom:"-80px", right:"-80px", width:"350px", height:"350px", borderRadius:"50%", background:"radial-gradient(circle, rgba(201,168,76,0.05) 0%, transparent 70%)", pointerEvents:"none" }} />
 
-      <div className="max-w-4xl mx-auto relative z-10">
-        <motion.div initial={{ opacity:0,x:-20 }} whileInView={{ opacity:1,x:0 }} viewport={{ once:true }} transition={{ duration:0.5 }}
-          className="flex items-center gap-3 mb-3">
-          <span className="text-[10px] font-black tracking-[0.35em] uppercase text-amber-400/70">[ 02 / Education ]</span>
-          <div className="flex-1 h-px bg-gradient-to-r from-amber-500/25 to-transparent max-w-[100px]" />
+      <div style={{ maxWidth:"1280px", margin:"0 auto", position:"relative", zIndex:1 }}>
+        <motion.div initial={{ opacity:0, x:-30 }} whileInView={{ opacity:1, x:0 }} viewport={{ once:true }} transition={{ duration:0.7 }} style={{ marginBottom:"4rem" }}>
+          <div style={{ display:"flex", alignItems:"center", gap:"16px", marginBottom:"1rem" }}>
+            <span style={{ fontSize:"11px", fontWeight:800, letterSpacing:"0.45em", color:"rgba(201,168,76,0.5)", textTransform:"uppercase" }}>02</span>
+            <div style={{ width:"40px", height:"1px", background:"linear-gradient(90deg, #c9a84c, transparent)" }} />
+          </div>
+          <h2 style={{ fontSize:"clamp(2rem, 4vw, 3.5rem)", fontWeight:900, letterSpacing:"-0.04em", color:"#f5eed9", margin:0, textTransform:"uppercase" }}>Education</h2>
+          <div style={{ width:"60px", height:"1px", background:"linear-gradient(90deg, #c9a84c, transparent)", marginTop:"1rem" }} />
         </motion.div>
 
-        <motion.h2 initial={{ opacity:0,y:18 }} whileInView={{ opacity:1,y:0 }} viewport={{ once:true }} transition={{ duration:0.6,delay:0.05 }}
-          className="text-4xl sm:text-6xl font-black tracking-tighter text-white mb-4">
-          Credentials<span className="text-amber-400">.</span>
-        </motion.h2>
-        <motion.p initial={{ opacity:0 }} whileInView={{ opacity:1 }} viewport={{ once:true }} transition={{ duration:0.5,delay:0.15 }}
-          className="text-white/30 text-sm mb-16 max-w-sm">
-          Academic foundations and earned qualifications.
-        </motion.p>
-
-        <div className="relative">
-          <motion.div initial={{ scaleY:0 }} whileInView={{ scaleY:1 }} viewport={{ once:true }}
-            transition={{ duration:1.8,ease:"easeInOut" }}
-            className="absolute left-[19px] top-3 w-px hidden sm:block origin-top"
-            style={{ height:"calc(100% - 12px)", background:"linear-gradient(180deg,rgba(251,191,36,0.35),rgba(249,115,22,0.1),transparent)" }} />
-
-          <div className="space-y-7">
-            {data.education.map((edu, index) => (
-              <motion.div key={index}
-                initial={{ opacity:0,x:-30 }} whileInView={{ opacity:1,x:0 }} viewport={{ once:true,margin:"-80px" }}
-                transition={{ duration:0.5,delay:index*0.1,type:"spring",stiffness:100 }}
-                className="relative sm:pl-14">
-
-                {/* Timeline dot — star/diamond shape for education */}
-                <div className="hidden sm:flex absolute left-0 top-6 w-10 h-10 items-center justify-center z-10"
-                  style={{ background:"#100b05" }}>
-                  <motion.div animate={{ rotate:[0,180,360] }} transition={{ duration:8,repeat:Infinity,ease:"linear" }}
-                    className="w-3 h-3 shadow-[0_0_12px_rgba(251,191,36,0.6)]"
-                    style={{ background:"linear-gradient(135deg,#fbbf24,#ef4444)", clipPath:"polygon(50% 0%,100% 50%,50% 100%,0% 50%)" }} />
+        <div>
+          {items.map((edu, i) => (
+            <motion.div key={i} initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} transition={{ duration:0.5, delay:i * 0.08 }}>
+              <div className="gn-edu-row">
+                {/* Year column */}
+                <div>
+                  <span style={{ fontSize:"11px", fontWeight:800, letterSpacing:"0.2em", color:"rgba(201,168,76,0.6)", display:"block", marginBottom:"4px" }}>
+                    {edu.year || edu.graduationYear || edu.period || "—"}
+                  </span>
+                  <span style={{ fontSize:"10px", color:"rgba(245,238,217,0.2)", letterSpacing:"0.1em" }}>Year</span>
                 </div>
 
-                <motion.div whileHover={{ x:6 }} transition={{ type:"spring",stiffness:300 }} className="group">
-                  <div className="relative border border-amber-500/15 rounded-2xl p-6 sm:p-7 overflow-hidden transition-all duration-400 hover:border-amber-400/35 hover:shadow-[0_8px_40px_rgba(251,191,36,0.08)]"
-                    style={{ background:"rgba(251,191,36,0.03)" }}>
-                    <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-400 pointer-events-none"
-                      style={{ background:"linear-gradient(135deg,rgba(251,191,36,0.04),transparent)" }} />
-                    <span className="absolute right-5 top-4 text-6xl font-black select-none leading-none tabular-nums"
-                      style={{ WebkitTextFillColor:"transparent", WebkitTextStrokeWidth:"1px", WebkitTextStrokeColor:"rgba(251,191,36,0.06)" }}>
-                      {String(index+1).padStart(2,"0")}
-                    </span>
-
-                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-3 relative z-10">
-                      <div>
-                        <h3 className="text-base font-black text-white group-hover:text-amber-200 transition-colors duration-300">{edu.degree}</h3>
-                        <div className="flex items-center gap-2 mt-1.5">
-                          <FaGraduationCap className="w-3.5 h-3.5 text-amber-400/60" />
-                          <span className="text-sm font-bold text-amber-400/80">{edu.institution}</span>
-                        </div>
-                      </div>
-                      <div className="flex flex-col items-start sm:items-end gap-1.5 flex-shrink-0">
-                        <span className="text-[10px] font-bold text-white/35 border border-amber-500/15 px-3 py-1 rounded-full"
-                          style={{ background:"rgba(251,191,36,0.06)" }}>
-                          {edu.period}
-                        </span>
-                        {edu.location && (
-                          <span className="flex items-center gap-1 text-[10px] text-white/25">
-                            <FaMapMarkerAlt className="w-2.5 h-2.5" /> {edu.location}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-
-                    {edu.description && <p className="text-sm text-white/40 leading-relaxed mb-4 relative z-10">{edu.description}</p>}
-
-                    {edu.achievements?.length > 0 && (
-                      <ul className="space-y-2 relative z-10">
-                        {edu.achievements.filter(a=>a?.trim()).map((a,i) => (
-                          <li key={i} className="flex items-start gap-3 text-sm text-white/35">
-                            <div className="mt-2 w-1.5 h-1.5 rounded-full flex-shrink-0"
-                              style={{ background:"linear-gradient(135deg,#fbbf24,#f97316)" }} />
-                            {a}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
+                {/* Content */}
+                <div>
+                  <div style={{ display:"flex", alignItems:"center", gap:"10px", marginBottom:"0.5rem" }}>
+                    <FaGraduationCap style={{ color:"rgba(201,168,76,0.5)", fontSize:"14px" }} />
+                    <h3 style={{ fontSize:"17px", fontWeight:800, color:"#f5eed9", margin:0, letterSpacing:"-0.02em" }}>
+                      {edu.degree || edu.field || edu.program}
+                    </h3>
                   </div>
-                </motion.div>
-              </motion.div>
-            ))}
-          </div>
+                  <p style={{ fontSize:"13px", fontWeight:600, color:"rgba(201,168,76,0.7)", margin:"0 0 10px" }}>
+                    {edu.institution || edu.school}
+                  </p>
+                  {edu.description && (
+                    <p style={{ fontSize:"13px", color:"rgba(245,238,217,0.4)", lineHeight:1.65, margin:0 }}>{edu.description}</p>
+                  )}
+                  {edu.gpa && (
+                    <p style={{ fontSize:"11px", color:"rgba(201,168,76,0.5)", marginTop:"8px", fontWeight:600, letterSpacing:"0.1em" }}>GPA: {edu.gpa}</p>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
