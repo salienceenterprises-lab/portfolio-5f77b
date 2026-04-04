@@ -1,86 +1,106 @@
 "use client";
 import { motion } from "framer-motion";
-import { FaStar, FaExternalLinkAlt } from "react-icons/fa";
+import { FaHeart, FaExternalLinkAlt } from "react-icons/fa";
 
 export default function PortfolioCommunity({ data }) {
-  if (!data?.community || !Array.isArray(data.community) || data.community.length === 0) return null;
+  if (!data?.community?.length) return null;
 
   return (
-    <section id="community" className="relative py-28 px-6 overflow-hidden" style={{ background: "#0d0010" }}>
+    <section id="community" className="relative py-28 px-6 overflow-hidden bg-[#020c18]">
 
-      <div className="absolute inset-0 pointer-events-none opacity-[0.025]"
-        style={{ backgroundImage: "repeating-linear-gradient(45deg, #ffea00 0px, #ffea00 1px, transparent 1px, transparent 40px)" }} />
-      <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] rounded-full blur-[200px] pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(224,64,251,0.1), transparent 70%)" }} />
+      {/* Ambient */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute bottom-1/4 right-1/3 w-[500px] h-[400px] bg-cyan-500/[0.05] rounded-full blur-[160px]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:72px_72px]" />
+      </div>
 
-      <div className="max-w-6xl mx-auto relative z-10">
+      <div className="max-w-5xl mx-auto relative z-10">
 
-        <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }} transition={{ duration: 0.5 }}
-          className="flex items-center gap-3 mb-3">
-          <span className="text-[10px] font-black tracking-[0.5em] uppercase" style={{ color: "#ffea00" }}>06 /</span>
-          <span className="text-[10px] font-black tracking-[0.5em] uppercase text-white/40">Impact</span>
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="flex items-center gap-3 mb-3"
+        >
+          <motion.div
+            initial={{ width: 0 }} whileInView={{ width: 32 }} viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="h-px bg-gradient-to-r from-cyan-400 to-transparent"
+          />
+          <span className="text-[10px] font-bold tracking-[0.35em] uppercase text-cyan-400/80">06 — Impact</span>
         </motion.div>
 
-        <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.05 }}
-          className="text-4xl sm:text-5xl font-black tracking-tighter text-white mb-2 uppercase leading-none">
-          Community
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.05 }}
+          className="text-4xl sm:text-5xl font-black tracking-tighter text-white mb-4"
+        >
+          Community Work
         </motion.h2>
-        <motion.div initial={{ width: 0 }} whileInView={{ width: 120 }} viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.2 }} className="h-0.5 mb-14"
-          style={{ background: "linear-gradient(90deg, #ffea00, #e040fb, transparent)" }} />
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.15 }}
+          className="text-white/30 text-sm mb-16 max-w-md"
+        >
+          Giving back, making ripples, leaving things better than I found them.
+        </motion.p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {data.community.map((item, index) => {
-            if (!item) return null;
-            return (
-              <motion.div key={index}
-                initial={{ opacity: 0, y: 28 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ type: "spring", stiffness: 120, damping: 16, delay: index * 0.08 }}
-                whileHover={{ y: -5 }}
-                className="group relative p-7 overflow-hidden transition-all duration-300"
-                style={{ background: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.07)" }}
-                onMouseEnter={(e) => (e.currentTarget.style.borderColor = "rgba(255,234,0,0.3)")}
-                onMouseLeave={(e) => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.07)")}>
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {data.community.map((item, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.08 }}
+              whileHover={{ y: -5 }}
+              className="group relative bg-white/[0.03] border border-white/[0.07] rounded-2xl p-6 overflow-hidden hover:border-cyan-500/25 hover:shadow-[0_16px_50px_rgba(6,182,212,0.09)] transition-all duration-400"
+            >
+              {/* Subtle glow */}
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/[0.05] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400 pointer-events-none rounded-2xl" />
 
-                <div className="absolute top-0 left-0 right-0 h-0.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  style={{ background: "linear-gradient(90deg, #ffea00, #e040fb)" }} />
-
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-                  style={{ background: "linear-gradient(135deg, rgba(255,234,0,0.04), transparent)" }} />
-
-                <div className="flex items-start justify-between mb-5">
-                  <motion.div
-                    animate={{ rotate: [0, 15, -15, 0] }}
-                    transition={{ duration: 4, repeat: Infinity, delay: index * 0.7 }}
-                    className="w-10 h-10 flex items-center justify-center"
-                    style={{ background: "rgba(255,234,0,0.08)", border: "1px solid rgba(255,234,0,0.2)" }}>
-                    <FaStar className="w-4 h-4" style={{ color: "#ffea00" }} />
-                  </motion.div>
-                  {item.link && (
-                    <a href={item.link} target="_blank" rel="noopener noreferrer"
-                      className="text-white/20 hover:text-[#e040fb] transition-colors">
-                      <FaExternalLinkAlt className="w-3.5 h-3.5" />
-                    </a>
-                  )}
+              {/* Pulse ring behind icon */}
+              <div className="relative w-10 h-10 mb-5 flex items-center justify-center">
+                <motion.div
+                  animate={{ scale: [1, 1.8], opacity: [0.2, 0] }}
+                  transition={{ duration: 2.5, repeat: Infinity, delay: index * 0.5 }}
+                  className="absolute inset-0 rounded-full bg-cyan-400/20"
+                />
+                <div className="relative w-10 h-10 rounded-xl bg-cyan-500/[0.1] border border-cyan-400/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 z-10">
+                  <FaHeart className="w-4 h-4 text-cyan-400/80" />
                 </div>
+              </div>
 
-                <h3 className="font-black uppercase tracking-tight text-white mb-1.5 group-hover:text-[#ffea00] transition-colors relative z-10">
-                  {item.role || "Contributor"}
-                </h3>
-                <p className="text-[11px] font-black uppercase tracking-widest mb-3 relative z-10"
-                  style={{ color: "rgba(224,64,251,0.7)" }}>
-                  {item.organization || "Community Initiative"}
-                </p>
-                <p className="text-sm leading-relaxed relative z-10" style={{ color: "rgba(255,255,255,0.4)" }}>
-                  {item.description || ""}
-                </p>
-              </motion.div>
-            );
-          })}
+              <div className="relative z-10 flex items-start justify-between gap-2">
+                <div>
+                  <h3 className="font-bold text-white text-sm mb-0.5 group-hover:text-cyan-200 transition-colors duration-300">
+                    {item.role}
+                  </h3>
+                  <p className="text-xs font-bold text-cyan-400/70">{item.organization}</p>
+                </div>
+                {item.link && (
+                  <a
+                    href={item.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white/20 hover:text-cyan-400 transition-colors mt-0.5 flex-shrink-0"
+                  >
+                    <FaExternalLinkAlt className="w-3.5 h-3.5" />
+                  </a>
+                )}
+              </div>
+
+              {item.description && (
+                <p className="text-sm text-white/40 leading-relaxed mt-3 relative z-10">{item.description}</p>
+              )}
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
