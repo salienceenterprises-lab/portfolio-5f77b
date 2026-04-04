@@ -1,52 +1,66 @@
 "use client";
+import { motion } from "framer-motion";
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
 
 export default function PortfolioFooter({ data }) {
   const year = new Date().getFullYear();
   if (!data) return null;
 
+  const socials = [
+    { show: data?.github,   icon: FaGithub,   href: data?.github,             label: "GitHub"   },
+    { show: data?.linkedin, icon: FaLinkedin,  href: data?.linkedin,           label: "LinkedIn" },
+    { show: data?.email,    icon: FaEnvelope,  href: `mailto:${data?.email}`,  label: "Email"    },
+  ].filter(s => s.show);
+
   return (
-    <footer className="relative py-10 px-6" style={{ background: "#0a000d", borderTop: "1px solid rgba(224,64,251,0.1)" }}>
-      <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+    <footer className="relative bg-[#020b16] border-t border-white/[0.05] py-10 px-6 overflow-hidden">
+      {/* Top fade line */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-px bg-gradient-to-r from-transparent via-cyan-400/20 to-transparent" />
 
-        <div className="flex flex-col items-center sm:items-start gap-1">
-          <span className="font-black text-sm uppercase tracking-tight text-white">
-            {data.name || "Portfolio"}
-            <span style={{ color: "#e040fb" }}>_</span>
-          </span>
-          <p className="text-xs font-medium text-white/20">&copy; {year} All rights reserved.</p>
+      {/* Ambient */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[400px] h-[150px] bg-cyan-400/[0.03] rounded-full blur-[80px] pointer-events-none" />
+
+      <div className="max-w-6xl mx-auto relative z-10">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+
+          {/* Name & brand */}
+          <div className="flex items-center gap-3">
+            <motion.div
+              animate={{ opacity: [0.4, 1, 0.4] }}
+              transition={{ duration: 3, repeat: Infinity }}
+              className="w-1.5 h-1.5 rounded-full bg-cyan-400"
+            />
+            <p className="text-sm text-white/40">
+              © {year}{" "}
+              <span className="text-white/70 font-bold">{data.name || "Portfolio"}</span>
+            </p>
+          </div>
+
+          {/* Social icons */}
+          {socials.length > 0 && (
+            <div className="flex items-center gap-4">
+              {socials.map(({ icon: Icon, href, label }) => (
+                <motion.a
+                  key={label}
+                  href={href}
+                  target={label !== "Email" ? "_blank" : undefined}
+                  rel={label !== "Email" ? "noopener noreferrer" : undefined}
+                  whileHover={{ scale: 1.2, color: "#22d3ee" }}
+                  className="text-white/25 hover:text-cyan-400 transition-colors duration-300"
+                  aria-label={label}
+                >
+                  <Icon className="w-4 h-4" />
+                </motion.a>
+              ))}
+            </div>
+          )}
+
+          {/* Credit */}
+          <p className="text-[11px] text-white/15 tracking-widest">
+            Built with{" "}
+            <span className="text-cyan-500/50 font-semibold">Salience</span>
+          </p>
         </div>
-
-        <div className="flex items-center gap-5">
-          {data?.github && (
-            <a href={data.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub"
-              className="text-white/25 transition-colors"
-              onMouseEnter={(e) => (e.currentTarget.style.color = "white")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.25)")}>
-              <FaGithub className="w-5 h-5" />
-            </a>
-          )}
-          {data?.linkedin && (
-            <a href={data.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"
-              className="text-white/25 transition-colors"
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#e040fb")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.25)")}>
-              <FaLinkedin className="w-5 h-5" />
-            </a>
-          )}
-          {data?.email && (
-            <a href={`mailto:${data.email}`} aria-label="Email"
-              className="text-white/25 transition-colors"
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#ffea00")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.25)")}>
-              <FaEnvelope className="w-5 h-5" />
-            </a>
-          )}
-        </div>
-
-        <p className="text-xs text-white/20">
-          Built with <span className="font-black" style={{ color: "rgba(224,64,251,0.6)" }}>Salience</span>
-        </p>
       </div>
     </footer>
   );
