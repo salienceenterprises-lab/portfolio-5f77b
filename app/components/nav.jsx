@@ -1,174 +1,125 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import { FaBars, FaTimes, FaDownload } from "react-icons/fa";
 
 export default function PortfolioNav({ data }) {
-  const [scrolled, setScrolled]       = useState(false);
-  const [pastHero, setPastHero]       = useState(false);
-  const [mobileOpen, setMobileOpen]   = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [pastHero, setPastHero] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
   const { scrollY } = useScroll();
 
   if (!data) return null;
 
   const allNavLinks = [
-    { label: "About",     href: "#about",     key: "about"     },
-    { label: "Education", href: "#education", key: "education" },
-    { label: "Experience",href: "#experience",key: "experience"},
-    { label: "Projects",  href: "#projects",  key: "projects"  },
-    { label: "Skills",    href: "#skills",    key: "skills"    },
-    { label: "Impact",    href: "#community", key: "community" },
-    { label: "Contact",   href: "#contact",   key: "email"     },
+    { label: "About",     href: "#about",      key: "about"      },
+    { label: "Education", href: "#education",  key: "education"  },
+    { label: "Exp",       href: "#experience", key: "experience" },
+    { label: "Projects",  href: "#projects",   key: "projects"   },
+    { label: "Skills",    href: "#skills",     key: "skills"     },
+    { label: "Impact",    href: "#community",  key: "community"  },
+    { label: "Contact",   href: "#contact",    key: "email"      },
   ];
 
-  const activeLinks = allNavLinks.filter((link) => {
-    if (link.label === "About") return true;
-    const sectionData = data?.[link.key];
-    if (Array.isArray(sectionData)) return sectionData.length > 0;
-    return !!sectionData;
-  });
+  const activeLinks = allNavLinks.filter(
+    (l) => l.key === "about" || (Array.isArray(data?.[l.key]) ? data[l.key].length > 0 : !!data?.[l.key])
+  );
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setScrolled(latest > 50);
     setPastHero(latest > window.innerHeight * 0.8);
-
-    // Active section detection
-    const sectionIds = ["hero", ...activeLinks.map(l => l.href.replace("#", ""))];
-    for (let i = sectionIds.length - 1; i >= 0; i--) {
-      const el = document.getElementById(sectionIds[i]);
-      if (el && latest >= el.offsetTop - 120) {
-        setActiveSection(sectionIds[i]);
-        break;
-      }
+    const sectionIds = ["hero", ...activeLinks.map((l) => l.href.replace("#", ""))];
+    const sorted = sectionIds
+      .map((id) => ({ id, top: document.getElementById(id)?.offsetTop ?? Infinity }))
+      .filter((s) => s.top !== Infinity)
+      .sort((a, b) => a.top - b.top);
+    for (let i = sorted.length - 1; i >= 0; i--) {
+      if (latest >= sorted[i].top - 130) { setActiveSection(sorted[i].id); break; }
     }
   });
 
-  const handleNavClick = (e, href) => {
-    e.preventDefault();
-    setMobileOpen(false);
+  const scrollTo = (e, href) => {
+    e.preventDefault(); setMobileOpen(false);
     const el = document.getElementById(href.replace("#", ""));
-    if (el) {
-      window.scrollTo({ top: el.getBoundingClientRect().top + window.pageYOffset - 80, behavior: "smooth" });
-    }
+    if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.pageYOffset - 72, behavior: "smooth" });
   };
 
   return (
     <motion.nav
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: 0.2 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? "bg-[#020c18]/92 backdrop-blur-2xl border-b border-cyan-400/[0.07] shadow-[0_4px_40px_rgba(6,182,212,0.06)]"
-          : "bg-transparent"
+      transition={{ duration: 0.5, delay: 0.1 }}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-400 ${
+        scrolled ? "bg-[#0c0904]/90 backdrop-blur-xl border-b border-amber-500/[0.1]" : "bg-transparent"
       }`}
     >
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
 
         {/* Logo */}
-        <a
-          href="#hero"
-          onClick={(e) => handleNavClick(e, "#hero")}
-          className="group flex items-center gap-2"
-        >
-          <span className="text-base font-black tracking-tight text-white group-hover:text-cyan-300 transition-colors duration-300">
-            {data.name?.split(" ")[0]}
+        <a href="#hero" onClick={(e) => scrollTo(e, "#hero")} className="flex items-center gap-2.5 group">
+          <div className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0"
+            style={{ background: "linear-gradient(135deg,#fbbf24,#f97316)" }}>
+            <span className="text-[10px] font-black text-black">
+              {data.name?.split(" ").map(w => w[0]).join("").slice(0, 2) || "BB"}
+            </span>
+          </div>
+          <span className="text-sm font-bold text-white/60 tracking-tight hidden sm:block group-hover:text-white/90 transition-colors">
+            {data.name?.split(" ")[0]}<span className="text-amber-400">.</span>
           </span>
-          <motion.span
-            animate={{ opacity: [0.5, 1, 0.5] }}
-            transition={{ duration: 2.5, repeat: Infinity }}
-            className="text-base font-black text-cyan-400"
-          >.</motion.span>
         </a>
 
         {/* Desktop links */}
-        <div className="hidden md:flex items-center gap-1">
-          {activeLinks.map((link) => {
-            const isActive = activeSection === link.href.replace("#", "");
+        <div className="hidden md:flex items-center gap-7">
+          {activeLinks.map((l) => {
+            const isActive = activeSection === l.href.replace("#", "");
             return (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={(e) => handleNavClick(e, link.href)}
-                className="relative px-3 py-2 text-[11px] font-semibold tracking-[0.22em] uppercase transition-colors duration-300"
-              >
-                <span className={isActive ? "text-cyan-300" : "text-white/40 hover:text-white/80"}>
-                  {link.label}
-                </span>
+              <a key={l.href} href={l.href} onClick={(e) => scrollTo(e, l.href)}
+                className="relative text-[10px] font-black uppercase tracking-[0.25em] transition-colors duration-300 py-1"
+                style={{ color: isActive ? "#fbbf24" : "rgba(255,255,255,0.35)" }}>
+                {l.label}
                 {isActive && (
-                  <motion.div
-                    layoutId="nav-indicator"
-                    className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-400 to-transparent"
-                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                  />
+                  <motion.div layoutId="bb-nav-indicator"
+                    className="absolute -bottom-0.5 left-0 right-0 h-px"
+                    style={{ background: "linear-gradient(90deg,transparent,#fbbf24,transparent)" }}
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }} />
                 )}
               </a>
             );
           })}
-        </div>
-
-        {/* Resume CTA */}
-        <div className="hidden md:flex items-center">
           <AnimatePresence>
             {pastHero && data?.resumeBase64 && (
-              <motion.a
-                href={`data:application/pdf;base64,${data.resumeBase64}`}
-                download={`${data.name || "Resume"}.pdf`}
-                initial={{ opacity: 0, scale: 0.9, x: 10 }}
-                animate={{ opacity: 1, scale: 1, x: 0 }}
-                exit={{ opacity: 0, scale: 0.9, x: 10 }}
-                transition={{ duration: 0.3, type: "spring", stiffness: 200 }}
-                whileHover={{ scale: 1.06, boxShadow: "0 0 30px rgba(6,182,212,0.3)" }}
-                whileTap={{ scale: 0.96 }}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-[11px] font-bold rounded-full shadow-lg shadow-cyan-500/25 tracking-wide"
-              >
-                <FaDownload className="w-2.5 h-2.5" />
-                Resume
+              <motion.a initial={{ opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 12 }}
+                href={`data:application/pdf;base64,${data.resumeBase64}`} download={`${data.name || "Resume"}.pdf`}
+                className="flex items-center gap-1.5 px-4 py-2 text-black text-[10px] font-black rounded-full uppercase tracking-[0.2em] transition-all shadow-lg shadow-amber-500/20"
+                style={{ background: "linear-gradient(135deg,#fbbf24,#f97316)" }}>
+                <FaDownload className="w-2.5 h-2.5" /> Resume
               </motion.a>
             )}
           </AnimatePresence>
         </div>
 
-        {/* Mobile toggle */}
-        <button
-          onClick={() => setMobileOpen(!mobileOpen)}
-          className="md:hidden p-2 text-white/50 hover:text-cyan-300 transition-colors"
-        >
+        <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden text-white/50 hover:text-amber-400 transition-colors">
           {mobileOpen ? <FaTimes className="w-5 h-5" /> : <FaBars className="w-5 h-5" />}
         </button>
       </div>
 
-      {/* Mobile menu */}
       <AnimatePresence>
         {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-[#020c18]/98 backdrop-blur-2xl border-b border-cyan-400/[0.07] overflow-hidden"
-          >
-            <div className="px-6 pb-6 pt-2 space-y-1">
-              {activeLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  onClick={(e) => handleNavClick(e, link.href)}
-                  className="block py-3 text-sm text-white/50 hover:text-cyan-300 transition-colors border-b border-white/[0.04] last:border-0 tracking-wide"
-                >
-                  {link.label}
-                </a>
-              ))}
-              {data?.resumeBase64 && (
-                <a
-                  href={`data:application/pdf;base64,${data.resumeBase64}`}
-                  download={`${data.name || "Resume"}.pdf`}
-                  className="flex items-center gap-2 mt-4 text-sm text-cyan-400 font-bold"
-                >
-                  <FaDownload className="w-3.5 h-3.5" /> Download Resume
-                </a>
-              )}
-            </div>
+          <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }}
+            className="md:hidden bg-[#0c0904]/97 backdrop-blur-xl border-b border-amber-500/10 px-6 pb-6 pt-3 overflow-hidden">
+            {activeLinks.map((l) => (
+              <a key={l.href} href={l.href} onClick={(e) => scrollTo(e, l.href)}
+                className="block py-3 text-xs font-black uppercase tracking-[0.25em] text-white/40 hover:text-amber-400 transition-colors border-b border-white/[0.04] last:border-0">
+                {l.label}
+              </a>
+            ))}
+            {data?.resumeBase64 && (
+              <a href={`data:application/pdf;base64,${data.resumeBase64}`} download={`${data.name || "Resume"}.pdf`}
+                className="flex items-center gap-2 mt-5 text-xs font-black uppercase tracking-[0.2em] text-amber-400">
+                <FaDownload className="w-3.5 h-3.5" /> Download Resume
+              </a>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
