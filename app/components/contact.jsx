@@ -47,22 +47,7 @@ export default function PortfolioContact({ data }) {
   return (
     <section id="contact" className="relative py-28 px-6 overflow-hidden bg-[#100b05]">
 
-      {/* Warm ambient pulse */}
-      <motion.div animate={{ scale:[1,1.2,1],opacity:[0.04,0.09,0.04] }}
-        transition={{ duration:9,repeat:Infinity,ease:"easeInOut" }}
-        className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[700px] h-[500px] rounded-full blur-[160px] pointer-events-none"
-        style={{ background:"radial-gradient(ellipse,rgba(251,191,36,0.15),rgba(249,115,22,0.08),transparent 70%)" }} />
       <div className="absolute inset-0 bg-[linear-gradient(rgba(251,191,36,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(251,191,36,0.02)_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none" />
-
-      {/* Heat ray lines from bottom */}
-      {[0,1,2].map((i) => (
-        <motion.div key={i}
-          animate={{ scaleY:[0,1],opacity:[0.25,0] }}
-          transition={{ duration:4,repeat:Infinity,delay:i*1.4,ease:"easeOut",transformOrigin:"bottom" }}
-          className="absolute bottom-0 pointer-events-none w-px"
-          style={{ left:`calc(50% + ${(i-1)*70}px)`, height:`${160+i*70}px`,
-            background:"linear-gradient(0deg,rgba(251,191,36,0.4),transparent)" }} />
-      ))}
 
       <div className="max-w-4xl mx-auto relative z-10">
         <motion.div initial={{ opacity:0,x:-20 }} whileInView={{ opacity:1,x:0 }} viewport={{ once:true }} transition={{ duration:0.5 }}
