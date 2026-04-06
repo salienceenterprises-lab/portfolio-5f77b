@@ -10,7 +10,7 @@ export default function PortfolioAbout({ data }) {
 
       {/* Ambient warm */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 right-0 w-[600px] h-[500px] rounded-full blur-[180px] translate-x-1/3 -translate-y-1/4"
+        <div className="absolute top-0 right-0 w-[600px] h-[500px] rounded-full translate-x-1/3 -translate-y-1/4"
           style={{ background: "radial-gradient(ellipse,rgba(251,191,36,0.06),transparent 70%)" }} />
         <div className="absolute inset-0 bg-[linear-gradient(rgba(251,191,36,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(251,191,36,0.02)_1px,transparent_1px)] bg-[size:64px_64px]" />
       </div>
@@ -77,8 +77,7 @@ export default function PortfolioAbout({ data }) {
                 <div className="absolute inset-0 scale-110 blur-2xl rounded-[60%_40%_55%_45%]"
                   style={{ background: "radial-gradient(ellipse,rgba(251,191,36,0.2),rgba(249,115,22,0.1),transparent 70%)" }} />
                 {/* Orbit ring */}
-                <motion.div animate={{ rotate:360 }} transition={{ duration:22,repeat:Infinity,ease:"linear" }}
-                  className="absolute -inset-4 border border-dashed border-amber-400/15 rounded-[60%_40%_55%_45%]" />
+                <div className="absolute -inset-4 border border-dashed border-amber-400/15 rounded-[60%_40%_55%_45%]" />
                 {/* Photo */}
                 <div className="absolute inset-0 overflow-hidden border border-amber-400/25 rounded-[60%_40%_55%_45%]">
                   <img src={data.heroImageBase64} alt={data.name} className="w-full h-full object-cover scale-110" />
