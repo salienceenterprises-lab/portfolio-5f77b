@@ -25,16 +25,6 @@ export default function PortfolioHero({ data }) {
       {/* Warm grid */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(251,191,36,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(251,191,36,0.025)_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none" />
 
-      {/* Heat shimmer streaks */}
-      {[15, 35, 55, 75].map((pct, i) => (
-        <motion.div
-          key={i}
-          animate={{ x: ["-100%", "200%"] }}
-          transition={{ duration: 8 + i * 2, repeat: Infinity, ease: "linear", delay: i * 2.5 }}
-          className="absolute h-px bg-gradient-to-r from-transparent via-amber-400/20 to-transparent pointer-events-none"
-          style={{ top: `${pct}%`, width: "40%" }}
-        />
-      ))}
 
       <div className={`relative z-20 max-w-6xl mx-auto px-6 w-full grid gap-16 items-center py-32 min-h-screen ${data?.heroImageBase64 ? "grid-cols-1 md:grid-cols-2" : "grid-cols-1 max-w-3xl"}`}>
 
@@ -50,9 +40,7 @@ export default function PortfolioHero({ data }) {
           >
             <div className="flex gap-1">
               {[0,1,2].map(i => (
-                <motion.div key={i} animate={{ opacity: [0.3,1,0.3] }}
-                  transition={{ duration: 1.6, repeat: Infinity, delay: i * 0.3 }}
-                  className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                <div key={i} className="w-1.5 h-1.5 rounded-full bg-amber-400" />
               ))}
             </div>
             <span className="text-[10px] font-black tracking-[0.4em] uppercase text-amber-400/80">{data?.title}</span>
@@ -161,17 +149,8 @@ export default function PortfolioHero({ data }) {
               <div className="absolute inset-0 scale-110 blur-3xl rounded-[60%_40%_50%_50%]"
                 style={{ background: "radial-gradient(ellipse,rgba(251,191,36,0.25),rgba(249,115,22,0.1),transparent 70%)" }} />
 
-              {/* Slow rotating orbit */}
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                className="absolute -inset-4 border border-dashed border-amber-400/15 rounded-[60%_40%_55%_45%]"
-              />
-              <motion.div
-                animate={{ rotate: -360 }}
-                transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                className="absolute -inset-8 border border-dashed border-orange-500/10 rounded-[45%_55%_40%_60%]"
-              />
+              {/* Static orbit ring */}
+              <div className="absolute -inset-4 border border-dashed border-amber-400/15 rounded-[60%_40%_55%_45%]" />
 
               {/* Photo in organic blob */}
               <div className="absolute inset-0 overflow-hidden border-2 border-amber-400/30 rounded-[60%_40%_55%_45%]">
@@ -180,11 +159,9 @@ export default function PortfolioHero({ data }) {
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0c0904]/50 to-transparent" />
               </div>
 
-              {/* Floating dots */}
+              {/* Accent dots */}
               {[["-top-2","-right-2"],["-bottom-2","-left-2"]].map(([t,l],i) => (
-                <motion.div key={i}
-                  animate={{ scale:[0.8,1.4,0.8], opacity:[0.5,1,0.5] }}
-                  transition={{ duration: 2.5, repeat: Infinity, delay: i * 1.2 }}
+                <div key={i}
                   className={`absolute ${t} ${l} w-3 h-3 rounded-full shadow-[0_0_12px_rgba(251,191,36,0.8)]`}
                   style={{ background: "linear-gradient(135deg,#fbbf24,#f97316)" }}
                 />
@@ -197,9 +174,7 @@ export default function PortfolioHero({ data }) {
       {/* Scroll cue */}
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20">
-        <motion.div animate={{ y: [0, 7, 0] }} transition={{ duration: 1.8, repeat: Infinity }}>
-          <FaChevronDown className="w-3.5 h-3.5 text-amber-400/35" />
-        </motion.div>
+        <FaChevronDown className="w-3.5 h-3.5 text-amber-400/35" />
       </motion.div>
     </section>
   );
