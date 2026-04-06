@@ -9,7 +9,7 @@ export default function PortfolioProjects({ data }) {
     <section id="projects" className="relative py-28 px-6 overflow-hidden bg-[#100b05]">
 
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 right-0 w-[700px] h-[600px] rounded-full blur-[180px] translate-x-1/3 -translate-y-1/4"
+        <div className="absolute top-0 right-0 w-[700px] h-[600px] rounded-full translate-x-1/3 -translate-y-1/4"
           style={{ background:"radial-gradient(ellipse,rgba(249,115,22,0.06),transparent 70%)" }} />
         <div className="absolute inset-0 bg-[linear-gradient(rgba(251,191,36,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(251,191,36,0.02)_1px,transparent_1px)] bg-[size:64px_64px]" />
       </div>
