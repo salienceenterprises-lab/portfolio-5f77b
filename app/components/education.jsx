@@ -9,7 +9,7 @@ export default function PortfolioEducation({ data }) {
     <section id="education" className="relative py-28 px-6 overflow-hidden bg-[#100b05]">
 
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute bottom-0 left-0 w-[500px] h-[400px] rounded-full blur-[160px] -translate-x-1/4 translate-y-1/4"
+        <div className="absolute bottom-0 left-0 w-[500px] h-[400px] rounded-full -translate-x-1/4 translate-y-1/4"
           style={{ background:"radial-gradient(ellipse,rgba(251,191,36,0.05),transparent 70%)" }} />
         <div className="absolute inset-0 bg-[linear-gradient(rgba(251,191,36,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(251,191,36,0.02)_1px,transparent_1px)] bg-[size:64px_64px]" />
       </div>
@@ -46,8 +46,7 @@ export default function PortfolioEducation({ data }) {
                 {/* Timeline dot — star/diamond shape for education */}
                 <div className="hidden sm:flex absolute left-0 top-6 w-10 h-10 items-center justify-center z-10"
                   style={{ background:"#100b05" }}>
-                  <motion.div animate={{ rotate:[0,180,360] }} transition={{ duration:8,repeat:Infinity,ease:"linear" }}
-                    className="w-3 h-3 shadow-[0_0_12px_rgba(251,191,36,0.6)]"
+                  <div className="w-3 h-3 shadow-[0_0_12px_rgba(251,191,36,0.6)]"
                     style={{ background:"linear-gradient(135deg,#fbbf24,#ef4444)", clipPath:"polygon(50% 0%,100% 50%,50% 100%,0% 50%)" }} />
                 </div>
 
