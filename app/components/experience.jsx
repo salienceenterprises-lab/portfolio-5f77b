@@ -9,7 +9,7 @@ export default function PortfolioExperience({ data }) {
     <section id="experience" className="relative py-28 px-6 overflow-hidden bg-[#0c0904]">
 
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/3 right-0 w-[500px] h-[500px] rounded-full blur-[180px] translate-x-1/3"
+        <div className="absolute top-1/3 right-0 w-[500px] h-[500px] rounded-full translate-x-1/3"
           style={{ background:"radial-gradient(ellipse,rgba(249,115,22,0.06),transparent 70%)" }} />
         <div className="absolute inset-0 bg-[linear-gradient(rgba(251,191,36,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(251,191,36,0.02)_1px,transparent_1px)] bg-[size:64px_64px]" />
       </div>
@@ -47,9 +47,7 @@ export default function PortfolioExperience({ data }) {
                 {/* Timeline dot */}
                 <div className="hidden sm:flex absolute left-0 top-6 w-10 h-10 rounded-full items-center justify-center z-10"
                   style={{ background:"#0c0904" }}>
-                  <motion.div animate={{ scale:[1,1.6,1],opacity:[0.5,1,0.5] }}
-                    transition={{ duration:2.5,repeat:Infinity,delay:index*0.4 }}
-                    className="w-3 h-3 rounded-full shadow-[0_0_14px_rgba(251,191,36,0.7)]"
+                  <div className="w-3 h-3 rounded-full shadow-[0_0_14px_rgba(251,191,36,0.7)]"
                     style={{ background:"linear-gradient(135deg,#fbbf24,#f97316)" }} />
                 </div>
 
