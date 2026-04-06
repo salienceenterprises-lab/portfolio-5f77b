@@ -9,7 +9,7 @@ export default function PortfolioCommunity({ data }) {
     <section id="community" className="relative py-28 px-6 overflow-hidden bg-[#0c0904]">
 
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute bottom-1/3 left-1/3 w-[600px] h-[500px] rounded-full blur-[160px]"
+        <div className="absolute bottom-1/3 left-1/3 w-[600px] h-[500px] rounded-full"
           style={{ background:"radial-gradient(ellipse,rgba(251,191,36,0.05),transparent 70%)" }} />
         <div className="absolute inset-0 bg-[linear-gradient(rgba(251,191,36,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(251,191,36,0.02)_1px,transparent_1px)] bg-[size:64px_64px]" />
       </div>
@@ -45,11 +45,7 @@ export default function PortfolioCommunity({ data }) {
 
               {/* Sun icon with radiating warmth */}
               <div className="relative w-11 h-11 mb-5">
-                <motion.div animate={{ scale:[1,2.0],opacity:[0.2,0] }}
-                  transition={{ duration:2.5,repeat:Infinity,delay:index*0.5 }}
-                  className="absolute inset-0 rounded-full"
-                  style={{ background:"rgba(251,191,36,0.2)" }} />
-                <div className="relative w-11 h-11 rounded-xl border border-amber-500/25 flex items-center justify-center z-10 group-hover:scale-110 transition-transform duration-300"
+                <div className="w-11 h-11 rounded-xl border border-amber-500/25 flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
                   style={{ background:"rgba(251,191,36,0.08)" }}>
                   <FaSun className="w-4 h-4 text-amber-400/80" />
                 </div>
