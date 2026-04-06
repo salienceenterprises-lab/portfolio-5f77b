@@ -17,7 +17,7 @@ export default function PortfolioSkills({ data }) {
     <section id="skills" className="relative py-28 px-6 overflow-hidden bg-[#0c0904]">
 
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[600px] rounded-full blur-[200px]"
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[600px] rounded-full"
           style={{ background:"radial-gradient(ellipse,rgba(251,191,36,0.05),transparent 70%)" }} />
         <div className="absolute inset-0 bg-[linear-gradient(rgba(251,191,36,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(251,191,36,0.02)_1px,transparent_1px)] bg-[size:64px_64px]" />
       </div>
@@ -49,8 +49,7 @@ export default function PortfolioSkills({ data }) {
               <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                 style={{ background:"linear-gradient(135deg,rgba(251,191,36,0.1),rgba(249,115,22,0.06))" }} />
               <div className="flex items-center gap-2 relative z-10">
-                <motion.div animate={{ opacity:[0.4,1,0.4] }} transition={{ duration:2,repeat:Infinity,delay:i*0.12%2 }}
-                  className="w-1.5 h-1.5 rounded-full flex-shrink-0 group-hover:scale-125 transition-transform"
+                <div className="w-1.5 h-1.5 rounded-full flex-shrink-0 group-hover:scale-125 transition-transform"
                   style={{ background:"linear-gradient(135deg,#fbbf24,#f97316)" }} />
                 <span className="text-[11px] font-bold text-white/50 group-hover:text-amber-200/90 transition-colors duration-300 uppercase tracking-wider">
                   {skill}
